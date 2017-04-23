@@ -1,0 +1,90 @@
+
+.vdialog {
+	position: absolute;
+	padding: 0;
+}
+
+.vdialog > .vdialog-header {
+	box-sizing: border-box;
+	height: 35px;
+	border-style: solid;
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 0px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-color: hsl(0, 0%, 75%);
+	background-image: linear-gradient(hsl(0, 0%, 100%), hsl(0, 0%, 98%));
+}
+
+.vdialog-header > .vdialog-title {
+	font-size: 16px;
+	position: relative;
+	top: 5px;
+	left: 10px;
+	text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+}
+
+.vdialog-header > button {
+	position: absolute;
+	top: 10px;
+	width: 18px;
+	height: 18px;
+	border: 0;
+	border-radius: 50%;
+}
+
+.vdialog-header > button.vdialog-minimize {
+	right: 60px;
+	background-image: radial-gradient(at 6px 6px, hsl(120, 100%, 100%), hsl(120, 100%, 60%), hsl(120, 100%, 46%), hsl(120, 100%, 40%));
+}
+
+.vdialog-header > button.vdialog-maximize {
+	right: 35px;
+	background-image: radial-gradient(at 6px 6px, hsl(60, 100%, 100%), hsl(60, 100%, 60%), hsl(60, 100%, 46%), hsl(60, 100%, 40%));
+}
+
+.vdialog-header > button.vdialog-close {
+	right: 10px;
+ 	background-image: radial-gradient(at 6px 6px, hsl(0, 100%, 100%), hsl(0, 100%, 75%), hsl(0, 100%, 60%), hsl(0, 100%, 45%));
+}
+
+.vdialog-header.vdialog-maximization {
+	border-radius: 0;
+}
+
+.vdialog-header.vdialog-minimization {
+	border-bottom-width: 1px;
+}
+
+.vdialog > .vdialog-body {
+	box-sizing: border-box;
+	text-align: center;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right-style: solid;
+ 	border-right-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	/* default */
+	padding: 3px;
+	border-color: hsl(0, 0%, 75%);
+	background-image: linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 70%));
+}
+
+.vdialog > .vdialog-body > * {
+	box-sizing: border-box;
+}
+
+/* blue */
+.vdialog-blue > .vdialog-header {
+	border-color: hsl(210, 80%, 75%);
+	background-image: linear-gradient(hsl(210, 80%, 100%), hsl(210, 80%, 98%));
+}
+
+.vdialog-blue > .vdialog-body {
+	border-color: hsl(210, 80%, 75%);
+	background-image: linear-gradient(hsl(210, 80%, 98%), hsl(210, 80%, 70%));
+}
+
