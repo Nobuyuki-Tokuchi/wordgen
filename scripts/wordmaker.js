@@ -83,6 +83,11 @@ var dialogVue;
 							break;
 					}
 				},
+				outputJson: function _outputJson() {
+				},
+				remove: function _remove(index) {
+					this.results.splice(index, 1);
+				},
 			},
 		});
 
@@ -117,6 +122,10 @@ var dialogVue;
 					return this.mode.value === 'simplecv';
 				},
 			},
+			methods: {
+				inputSetting: function _inputSetting() {
+				}
+			}
 		});
 	}
 })();

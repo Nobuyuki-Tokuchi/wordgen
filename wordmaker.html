@@ -15,11 +15,15 @@
 		<div>
 			<button @click='showDialog'>設定画面</button>
 			<button @click='create'>作成</button>
+			<button @click='outputJson' v-if="false">OTM-JSONを出力(未作成)</button>
 		</div>
 		<div>
 			<h2>生成文字列一覧</h2>
-			<div v-for='result in results'>
-				<p> {{ result.text }} </p>
+			<div v-for='(result, index) in results'>
+				<p>
+					<input type="text" v-model="result.text" />
+					<button @click="remove(index)">削除</button>
+				</p>
 			</div>
 		</div>
 	</div>
@@ -39,6 +43,7 @@
 							{{ option.text }}
 						</option>
 					</select>
+					<button @click='inputSetting' v-if="false">設定ファイル読込(未作成)</button>
 				</div>
 				<div class="setting" v-show="isSimple">
 					<div>
