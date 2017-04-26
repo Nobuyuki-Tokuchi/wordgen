@@ -38,12 +38,16 @@
 		<div class="vdialog-body">
 			<div id="dialogVue">
 				<div>
+					<span>設定ファイル読み込み：</span>
+					<input type='file' @change='inputSetting($event)'>
+				</div>
+				<hr />
+				<div>
 					<select v-model='mode.value'>
 						<option v-for='option in mode.options' v-bind:value='option.value'>
 							{{ option.text }}
 						</option>
 					</select>
-					<button @click='inputSetting' v-if="false">設定ファイル読込(未作成)</button>
 				</div>
 				<div class="setting" v-show="isSimple">
 					<div>

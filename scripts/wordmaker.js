@@ -9,6 +9,9 @@ var dialogVue;
 
 	function WGenerator() {}
 
+	WGenerator.simple_symbol = 'simple';
+	WGenerator.simplecv_symbol = 'simplecv';
+
 	WGenerator.simple = function _wg_simple(setting) {
 		var letters = setting.letters.split(",");
 		var buffer = "";
@@ -69,12 +72,12 @@ var dialogVue;
 				},
 				create: function _create() {
 					switch(dialogVue.mode.value) {
-						case 'simple':
+						case WGenerator.simple_symbol:
 							this.results.push({
 								text: WGenerator.simple(dialogVue.createSetting.setSimple),
 							});
 							break;
-						case 'simplecv':
+						case WGenerator.simplecv_symbol:
 							this.results.push({
 								text: WGenerator.simplecv(dialogVue.createSetting.setSimpleCv),
 							});
@@ -97,15 +100,15 @@ var dialogVue;
 				mode: {
 					value: 'simple',
 					options: [
-						{ text: '単純文字列生成', value: 'simple' },
-						{ text: '母子音別定義単純文字列生成', value: 'simplecv' },
+						{ text: '単純文字列生成', value: WGenerator.simple_symbol },
+						{ text: '母子音別定義単純文字列生成', value: WGenerator.simplecv_symbol },
 						//{ text: '多定義文字列生成', value: 'manytype' },
 					],
 				},
 				createSetting: {
 					setSimple: {
 						letters: "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,y,z",
-						input: 4
+						input: 5,
 					},
 					setSimpleCv: {
 						consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z",
@@ -116,14 +119,57 @@ var dialogVue;
 			},
 			computed: {
 				isSimple: function _isSimple() {
-					return this.mode.value === 'simple';
+					return this.mode.value === WGenerator.simple_symbol;
 				},
 				isSimpleCv: function _isSimpleCv() {
-					return this.mode.value === 'simplecv';
+					return this.mode.value === WGenerator.simplecv_symbol;
 				},
 			},
 			methods: {
-				inputSetting: function _inputSetting() {
+				inputSetting: function _inputSetting(ev) {
+					let reader = new FileReader();
+					reader.readAsText(ev.target.files[0]);
+
+					let this_ = this;
+					reader.onload = function _reader_onload(loadEv) {
+						let arr = reader.result.replace('\r\n', '\n').replace('\r', '\n').split('\n');
+						arr = arr.filter(function(el) {
+							return el !== "" && !el.startsWith("#");
+						});
+
+						switch(this_.mode.value) {
+							case WGenerator.simple_symbol:
+								let letters = [];
+								for(let i = 0; i < arr.length; i++) {
+									letters = letters.concat(arr[i].split(","));
+								}
+
+								this_.createSetting.setSimple.letters = letters.join(",");
+								break;
+							case WGenerator.simplecv_symbol:
+								let consonants = "";
+								let vowels = "";
+
+								for(let i = 0; i < arr.length; i++) {
+									let split = arr[i].split(/[ ]?=[ ]?/);
+									switch(split[0]) {
+										case "consonants":
+											consonants = split[1];
+											break;
+										case "vowels":
+											vowels = split[1];
+											break;
+									}
+								}
+
+								this_.createSetting.setSimpleCv.consonants = consonants;
+								this_.createSetting.setSimpleCv.vowels = vowels;
+								break;
+							default:
+								break;
+						}
+						console.log(arr);
+					}
 				}
 			}
 		});
