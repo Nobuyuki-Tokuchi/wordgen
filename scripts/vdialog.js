@@ -66,6 +66,7 @@ var vziek;
                 document.removeEventListener('mousemove', _this.headerMousemove);
                 document.removeEventListener('mouseup', _this.headerMouseup);
             };
+            this.originPosition = { top: "0px", left: "0px" };
             this.title = title;
             this.style = settings['style'] || 'default';
             this.top = settings['top'] || 0;
@@ -95,10 +96,10 @@ var vziek;
                         bottom: window.innerHeight,
                     };
                     if (_this.isMaximize) {
-                        var maximizeWidth = _this.movableArea.right + 'px';
+                        var maximizeWidth = window.innerWidth + 'px';
                         _this.base.setAttribute('style', 'top: 0; left: 0; width: ' + maximizeWidth);
                         _this.header.setAttribute('style', 'width: ' + maximizeWidth);
-                        _this.body.setAttribute('style', 'width: ' + maximizeWidth + '; height: ' + (_this.movableArea.bottom - _this.header.clientHeight) + 'px');
+                        _this.body.setAttribute('style', 'width: ' + maximizeWidth + '; height: ' + (window.innerHeight - _this.header.offsetHeight) + 'px');
                     }
                 }
             }, false);
@@ -108,7 +109,7 @@ var vziek;
             this.base.style.display = 'none';
             this.base.style.width = this.width + 'px';
             this.header.style.width = this.width + 'px';
-            this.body.setAttribute('style', 'width: ' + (this.width) + 'px; height: ' + (this.height - this.header.clientHeight) + 'px;');
+            this.body.setAttribute('style', 'width: ' + (this.width) + 'px; height: ' + (this.height - this.header.offsetHeight) + 'px;');
             document.body.appendChild(this.base);
             this.isMaximize = false;
             this.isMinimize = false;
@@ -167,6 +168,29 @@ var vziek;
             }
         };
         VDialog.prototype.maximize = function () {
+            if (this.isMinimize) {
+                this.minimize();
+            }
+            this.isMaximize = !this.isMaximize;
+            if (this.isMaximize) {
+                this.header.classList.add('vdialog-maximization');
+                this.originPosition.top = this.base.style.top;
+                this.originPosition.left = this.base.style.left;
+                this.base.style.top = "0px";
+                this.base.style.left = "0px";
+                this.base.style.width = window.innerWidth + 'px';
+                this.header.style.width = this.base.clientWidth + 'px';
+                this.body.setAttribute('style', 'width: ' + (this.base.clientWidth) + 'px; height: ' + (window.innerHeight - this.header.offsetHeight) + 'px;');
+            }
+            else {
+                this.header.classList.remove('vdialog-maximization');
+                this.base.style.top = this.originPosition.top;
+                this.base.style.left = this.originPosition.left;
+                this.base.style.width = this.width + 'px';
+                this.header.style.width = this.width + 'px';
+                this.body.setAttribute('style', 'width: ' + (this.width) + 'px; height: ' + (this.height - this.header.offsetHeight) + 'px;');
+            }
+            this.setDraggable();
         };
         VDialog.prototype.createBase = function (dialog, isClone) {
             if (isClone === void 0) { isClone = false; }
