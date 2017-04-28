@@ -15,15 +15,28 @@
 		<div>
 			<button @click='showDialog'>設定画面</button>
 			<button @click='create'>作成</button>
-			<button @click='outputJson' v-if="false">OTM-JSONを出力(未作成)</button>
+			<button @click='outputJson'>OTM-JSONを出力</button>
 		</div>
 		<div>
 			<h2>生成文字列一覧</h2>
-			<div v-for='(result, index) in results'>
-				<p>
-					<input type="text" v-model="result.text" />
-					<button @click="remove(index)">削除</button>
-				</p>
+			<div v-for='(word, index) in words'>
+				<div class="zpword">
+					<div class="entry">
+						<label for="">単語</label>
+						<input type="text" v-model="word.entry.form" class="form" />
+						<button @click="remove(index)">削除</button>
+					</div>
+					<div v-for='(translation, index) in word.translations' class="translations">
+						<div>
+							<label for="">品詞</label>
+							<input type="text" v-model="translation.title" class="title">
+						</div>
+						<div>
+							<label for="">訳語</label>
+							<input type="text" v-model="translation.forms[0]" class="forms">
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

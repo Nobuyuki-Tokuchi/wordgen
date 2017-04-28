@@ -60,36 +60,69 @@ var dialogVue;
 			dialog: document.getElementById('dialogs'),
 		});
 
+		let id = 1;
 		app = new Vue({
 			el: '#app',
 			data: {
-				results: [
+				words: [
 				],
+				zpdic: {
+					alphabetOrder: "abcdefghijklmnopqrstuvwxyz"
+				}
 			},
 			methods: {
 				showDialog: function _showDialog() {
 					dialog.show();
 				},
 				create: function _create() {
+					let form = "";
 					switch(dialogVue.mode.value) {
 						case WGenerator.simple_symbol:
-							this.results.push({
-								text: WGenerator.simple(dialogVue.createSetting.setSimple),
-							});
+							form = WGenerator.simple(dialogVue.createSetting.setSimple);
 							break;
 						case WGenerator.simplecv_symbol:
-							this.results.push({
-								text: WGenerator.simplecv(dialogVue.createSetting.setSimpleCv),
-							});
+							form = WGenerator.simplecv(dialogVue.createSetting.setSimpleCv);
 							break;
 						default:
 							break;
 					}
+
+					this.words.push({
+						entry: {
+							id: id++,
+							form: form,
+						},
+						translations: [
+							{
+								forms: [""],
+								title: "",
+							},
+						],
+						tags: [],
+						contents: [],
+						variations: [],
+						relations: [],
+					});
 				},
 				outputJson: function _outputJson() {
+					let blob = new Blob([ JSON.stringify(this.$data, undefined, 2) ], { type: "application/json" });
+					console.log(blob);
+
+					if(window.navigator.msSaveBlob) {
+						window.navigator.msSaveBlob(blob, "data.json");
+					}
+					else {
+						let a = document.createElement("a");
+						a.download = "data.json";
+						
+						a.href = window.URL.createObjectURL(blob);
+						document.body.appendChild(a);
+						a.click();
+						document.body.removeChild(a);
+					}
 				},
 				remove: function _remove(index) {
-					this.results.splice(index, 1);
+					this.words.splice(index, 1);
 				},
 			},
 		});
@@ -151,8 +184,8 @@ var dialogVue;
 								let vowels = "";
 
 								for(let i = 0; i < arr.length; i++) {
-									let split = arr[i].split(/[ ]?=[ ]?/);
-									switch(split[0]) {
+									let split = arr[i].split(/\s*=\s*/);
+									switch(split[0].trim()) {
 										case "consonants":
 											consonants = split[1];
 											break;

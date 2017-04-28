@@ -22,3 +22,30 @@ h1, h2 {
 button {
 	font-size: 16px;
 }
+
+.zpword {
+	width: 50%;
+	min-width: 360px;
+	max-width: 720px;
+	padding: 5px;
+}
+
+.zpword > .entry {
+	width: 100%;
+}
+
+.zpword > .entry > .form {
+	width: 25%;
+}
+
+.zpword > .translations {
+	width: 100%;
+}
+
+.zpword > .translations .title {
+	width: 25%;
+}
+
+.zpword > .translations .forms {
+	width: 70%;
+}
