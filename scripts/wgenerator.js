@@ -4,8 +4,8 @@ var WordGenerator = (function () {
     WordGenerator.simple = function (setting) {
         var letters = setting.letters.split(",");
         var buffer = "";
-        var count = typeof setting.input === "number" ?
-            setting.input : parseInt(setting.input);
+        var countList = setting.patterns.split(",");
+        var count = parseInt(countList[Math.floor(Math.random() * countList.length)]);
         for (var i = 0; i < count; i++) {
             buffer += letters[Math.floor(Math.random() * letters.length)];
         }
@@ -16,8 +16,10 @@ var WordGenerator = (function () {
         var vowels = setting.vowels.split(",");
         var letters = consonants.concat(vowels);
         var buffer = "";
-        for (var i = 0; i < setting.input.length; i++) {
-            switch (setting.input[i]) {
+        var patternList = setting.patterns.split(",");
+        var pattern = patternList[Math.floor(Math.random() * patternList.length)];
+        for (var i = 0; i < pattern.length; i++) {
+            switch (pattern[i]) {
                 case "C":
                 case "c":
                     buffer += consonants[Math.floor(Math.random() * consonants.length)];

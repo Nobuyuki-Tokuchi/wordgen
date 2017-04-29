@@ -5,3 +5,6 @@ consonants = b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z
 
 # 母音設定
 vowels = a,e,i,o,u,y
+
+# 作成パターン設定
+patterns = CVCCV,CVC,CVVC

@@ -1,12 +1,12 @@
 interface SimpleWGSetting {
 	letters: string;
-	input: number|string;
+	patterns: string;
 }
 
 interface SimpleCvWGSetting {
 	consonants: string;
 	vowels: string;
-	input: string;
+	patterns: string;
 }
 
 class WordGenerator {
@@ -16,8 +16,8 @@ class WordGenerator {
 	public static simple(setting: SimpleWGSetting): string {
 		let letters = setting.letters.split(",");
 		let buffer = "";
-		let count = typeof setting.input === "number" ?
-			setting.input as number : parseInt(setting.input as string);
+		let countList = setting.patterns.split(",");
+		let count = parseInt(countList[Math.floor(Math.random() * countList.length)]);
 
 		for(let i = 0; i < count; i++) {
 			buffer += letters[Math.floor(Math.random() * letters.length)];
@@ -31,9 +31,11 @@ class WordGenerator {
 		let vowels = setting.vowels.split(",");
 		let letters = consonants.concat(vowels);
 		let buffer = "";
+		let patternList = setting.patterns.split(",");
+		let pattern = patternList[Math.floor(Math.random() * patternList.length)];
 
-		for(let i = 0; i < setting.input.length; i++) {
-			switch(setting.input[i]) {
+		for(let i = 0; i < pattern.length; i++) {
+			switch(pattern[i]) {
 				case "C":
 				case "c":
 					buffer += consonants[Math.floor(Math.random() * consonants.length)];

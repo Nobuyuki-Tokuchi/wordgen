@@ -3,11 +3,39 @@ var dialog;
 var dialogVue;
 
 (function () {
-	window.addEventListener('load', function() {
+	// 画面ロード時に初期化処理を呼び出す
+	window.addEventListener('load', function _initEvent() {
 		init();
+		window.removeEventListener('load', _initEvent);
 	});
 
+	/**
+	 * OTMオブジェクト
+	 * @param id オブジェクトのID．
+	 * @param form 単語文字列
+	 */
+	function OtmWord(id, form) {
+		this.entry =  {
+			id: id,
+			form: form,
+		};
+
+		this.translations = [
+			{
+				forms: [""],
+				title: "",
+			},
+		];
+
+		this.tags = [];
+		this.contents = [];
+		this.variations = [];
+		this.relations = [];
+	}
+
+	// 初期化用関数
 	function init() {
+		// 設定ダイアログの初期化
 		dialog = new NtDialog("設定画面", {
 			top: 100, left:500,
 			width: 500, height: 200,
@@ -16,6 +44,7 @@ var dialogVue;
 			dialog: document.getElementById('dialogs'),
 		});
 
+		// メインのVMの初期化
 		let id = 1;
 		app = new Vue({
 			el: '#app',
@@ -43,22 +72,7 @@ var dialogVue;
 							break;
 					}
 
-					this.words.push({
-						entry: {
-							id: id++,
-							form: form,
-						},
-						translations: [
-							{
-								forms: [""],
-								title: "",
-							},
-						],
-						tags: [],
-						contents: [],
-						variations: [],
-						relations: [],
-					});
+					this.words.push(new OtmWord(id++, form));
 				},
 				outputJson: function _outputJson() {
 					let blob = new Blob([ JSON.stringify(this.$data, undefined, 2) ], { type: "application/json" });
@@ -83,6 +97,7 @@ var dialogVue;
 			},
 		});
 
+		// 設定ダイアログのVMの初期化
 		dialogVue = new Vue({
 			el: '#dialogVue',
 			data: {
@@ -97,12 +112,12 @@ var dialogVue;
 				createSetting: {
 					setSimple: {
 						letters: "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,y,z",
-						input: 5,
+						patterns: "5",
 					},
 					setSimpleCv: {
 						consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z",
 						vowels: "a,e,i,o,u,y",
-						input: "CVCCV",
+						patterns: "CVCCV",
 					}
 				},
 			},
@@ -148,16 +163,19 @@ var dialogVue;
 										case "vowels":
 											vowels = split[1];
 											break;
+										case "patterns":
+											patterns = split[1];
+											break;
 									}
 								}
 
 								this_.createSetting.setSimpleCv.consonants = consonants;
 								this_.createSetting.setSimpleCv.vowels = vowels;
+								this_.createSetting.setSimpleCv.patterns = patterns;
 								break;
 							default:
 								break;
 						}
-						console.log(arr);
 					}
 				}
 			}
