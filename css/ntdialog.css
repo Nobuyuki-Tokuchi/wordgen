@@ -88,3 +88,57 @@
 	background-image: linear-gradient(hsl(210, 80%, 98%), hsl(210, 80%, 70%));
 }
 
+/* flat */
+.ntdialog-flat > .ntdialog-header {
+	border-radius: 0px;
+	border-color: hsl(0, 0%, 40%);
+	background-image: none;
+	background-color: hsl(0, 0%, 70%);
+}
+
+.ntdialog-flat > .ntdialog-header > button {
+	position: absolute;
+	top: 1px;
+	width: 36px;
+	height: 24px;
+	border-style: solid;
+	border-radius: 0px;
+	background-image: none;
+}
+
+.ntdialog-flat > .ntdialog-header > button.ntdialog-minimize {
+	right: 80px;
+	border-bottom-left-radius: 10px;
+	background-color: hsl(120, 100%, 40%);
+}
+
+.ntdialog-flat > .ntdialog-header > button.ntdialog-minimize:hover {
+	background-color: hsl(120, 100%, 60%);
+}
+
+.ntdialog-flat > .ntdialog-header > button.ntdialog-maximize {
+	right: 45px;
+	background-color: hsl(60, 100%, 40%);
+}
+
+.ntdialog-flat > .ntdialog-header > button.ntdialog-maximize:hover {
+	background-color: hsl(60, 100%, 60%);
+}
+
+.ntdialog-flat > .ntdialog-header > button.ntdialog-close {
+	right: 10px;
+	border-bottom-right-radius: 10px;
+	background-color: hsl(0, 100%, 45%);
+}
+
+.ntdialog-flat > .ntdialog-header > button.ntdialog-close:hover {
+	background-color: hsl(0, 100%, 75%);
+}
+
+.ntdialog-flat > .ntdialog-body {
+	border-color: hsl(0, 0%, 40%);
+	background-image: none;
+	background-color: hsl(0, 0%, 60%);
+}
+
+

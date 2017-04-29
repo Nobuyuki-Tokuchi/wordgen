@@ -39,7 +39,7 @@ var dialogVue;
 		dialog = new NtDialog("設定画面", {
 			top: 100, left:500,
 			width: 500, height: 200,
-			style: 'default',
+			style: 'flat', //'default',
 			draggable: true,
 			dialog: document.getElementById('dialogs'),
 		});
