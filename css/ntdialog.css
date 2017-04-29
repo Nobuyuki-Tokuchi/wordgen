@@ -1,10 +1,10 @@
 
-.vdialog {
+.ntdialog {
 	position: absolute;
 	padding: 0;
 }
 
-.vdialog > .vdialog-header {
+.ntdialog > .ntdialog-header {
 	box-sizing: border-box;
 	height: 35px;
 	border-style: solid;
@@ -18,7 +18,7 @@
 	background-image: linear-gradient(hsl(0, 0%, 100%), hsl(0, 0%, 98%));
 }
 
-.vdialog-header > .vdialog-title {
+.ntdialog-header > .ntdialog-title {
 	font-size: 16px;
 	position: relative;
 	top: 5px;
@@ -26,7 +26,7 @@
 	text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
 
-.vdialog-header > button {
+.ntdialog-header > button {
 	position: absolute;
 	top: 10px;
 	width: 18px;
@@ -35,30 +35,30 @@
 	border-radius: 50%;
 }
 
-.vdialog-header > button.vdialog-minimize {
+.ntdialog-header > button.ntdialog-minimize {
 	right: 60px;
 	background-image: radial-gradient(at 6px 6px, hsl(120, 100%, 100%), hsl(120, 100%, 60%), hsl(120, 100%, 46%), hsl(120, 100%, 40%));
 }
 
-.vdialog-header > button.vdialog-maximize {
+.ntdialog-header > button.ntdialog-maximize {
 	right: 35px;
 	background-image: radial-gradient(at 6px 6px, hsl(60, 100%, 100%), hsl(60, 100%, 60%), hsl(60, 100%, 46%), hsl(60, 100%, 40%));
 }
 
-.vdialog-header > button.vdialog-close {
+.ntdialog-header > button.ntdialog-close {
 	right: 10px;
  	background-image: radial-gradient(at 6px 6px, hsl(0, 100%, 100%), hsl(0, 100%, 75%), hsl(0, 100%, 60%), hsl(0, 100%, 45%));
 }
 
-.vdialog-header.vdialog-maximization {
+.ntdialog-header.ntdialog-maximization {
 	border-radius: 0;
 }
 
-.vdialog-header.vdialog-minimization {
+.ntdialog-header.ntdialog-minimization {
 	border-bottom-width: 1px;
 }
 
-.vdialog > .vdialog-body {
+.ntdialog > .ntdialog-body {
 	box-sizing: border-box;
 	text-align: center;
 	border-left-style: solid;
@@ -73,17 +73,17 @@
 	background-image: linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 70%));
 }
 
-.vdialog > .vdialog-body > * {
+.ntdialog > .ntdialog-body > * {
 	box-sizing: border-box;
 }
 
 /* blue */
-.vdialog-blue > .vdialog-header {
+.ntdialog-blue > .ntdialog-header {
 	border-color: hsl(210, 80%, 75%);
 	background-image: linear-gradient(hsl(210, 80%, 100%), hsl(210, 80%, 98%));
 }
 
-.vdialog-blue > .vdialog-body {
+.ntdialog-blue > .ntdialog-body {
 	border-color: hsl(210, 80%, 75%);
 	background-image: linear-gradient(hsl(210, 80%, 98%), hsl(210, 80%, 70%));
 }

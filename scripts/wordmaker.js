@@ -7,52 +7,8 @@ var dialogVue;
 		init();
 	});
 
-	function WGenerator() {}
-
-	WGenerator.simple_symbol = 'simple';
-	WGenerator.simplecv_symbol = 'simplecv';
-
-	WGenerator.simple = function _wg_simple(setting) {
-		var letters = setting.letters.split(",");
-		var buffer = "";
-
-		for(var i = 0; i < setting.input; i++) {
-			buffer += letters[Math.floor(Math.random() * letters.length)];
-		}
-
-		return buffer;
-	};
-
-	WGenerator.simplecv = function _wg_simplecv(setting) {
-		var consonants = setting.consonants.split(",");
-		var vowels = setting.vowels.split(",");
-		var letters = consonants.concat(vowels);
-		var buffer = "";
-
-		for(var i = 0; i < setting.input.length; i++) {
-			switch(setting.input[i]) {
-				case "C":
-				case "c":
-					buffer += consonants[Math.floor(Math.random() * consonants.length)];
-					break;
-				case "V":
-				case "v":
-					buffer += vowels[Math.floor(Math.random() * vowels.length)];
-					break;
-				case "*":
-					buffer += letters[Math.floor(Math.random() * letters.length)];
-					break;
-				default:
-					buffer += "-";
-					break;
-			}
-		}
-
-		return buffer;
-	}
-
 	function init() {
-		dialog = new vziek.VDialog("設定画面", {
+		dialog = new NtDialog("設定画面", {
 			top: 100, left:500,
 			width: 500, height: 200,
 			style: 'default',
@@ -77,11 +33,11 @@ var dialogVue;
 				create: function _create() {
 					let form = "";
 					switch(dialogVue.mode.value) {
-						case WGenerator.simple_symbol:
-							form = WGenerator.simple(dialogVue.createSetting.setSimple);
+						case WordGenerator.simple_symbol:
+							form = WordGenerator.simple(dialogVue.createSetting.setSimple);
 							break;
-						case WGenerator.simplecv_symbol:
-							form = WGenerator.simplecv(dialogVue.createSetting.setSimpleCv);
+						case WordGenerator.simplecv_symbol:
+							form = WordGenerator.simplecv(dialogVue.createSetting.setSimpleCv);
 							break;
 						default:
 							break;
@@ -133,8 +89,8 @@ var dialogVue;
 				mode: {
 					value: 'simple',
 					options: [
-						{ text: '単純文字列生成', value: WGenerator.simple_symbol },
-						{ text: '母子音別定義単純文字列生成', value: WGenerator.simplecv_symbol },
+						{ text: '単純文字列生成', value: WordGenerator.simple_symbol },
+						{ text: '母子音別定義単純文字列生成', value: WordGenerator.simplecv_symbol },
 						//{ text: '多定義文字列生成', value: 'manytype' },
 					],
 				},
@@ -152,10 +108,10 @@ var dialogVue;
 			},
 			computed: {
 				isSimple: function _isSimple() {
-					return this.mode.value === WGenerator.simple_symbol;
+					return this.mode.value === WordGenerator.simple_symbol;
 				},
 				isSimpleCv: function _isSimpleCv() {
-					return this.mode.value === WGenerator.simplecv_symbol;
+					return this.mode.value === WordGenerator.simplecv_symbol;
 				},
 			},
 			methods: {
@@ -171,7 +127,7 @@ var dialogVue;
 						});
 
 						switch(this_.mode.value) {
-							case WGenerator.simple_symbol:
+							case WordGenerator.simple_symbol:
 								let letters = [];
 								for(let i = 0; i < arr.length; i++) {
 									letters = letters.concat(arr[i].split(","));
@@ -179,7 +135,7 @@ var dialogVue;
 
 								this_.createSetting.setSimple.letters = letters.join(",");
 								break;
-							case WGenerator.simplecv_symbol:
+							case WordGenerator.simplecv_symbol:
 								let consonants = "";
 								let vowels = "";
 
