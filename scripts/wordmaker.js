@@ -132,7 +132,7 @@ var dialogVue;
 									letters = letters.concat(arr[i].split(","));
 								}
 
-								this_.createSetting.setSimple.letters = letters.join(",");
+								common.createSetting.setSimple.letters = letters.join(",");
 								break;
 							case WordGenerator.simplecv_symbol:
 								let consonants = "";
@@ -153,9 +153,9 @@ var dialogVue;
 									}
 								}
 
-								this_.createSetting.setSimpleCv.consonants = consonants;
-								this_.createSetting.setSimpleCv.vowels = vowels;
-								this_.createSetting.setSimpleCv.patterns = patterns;
+								common.createSetting.setSimpleCv.consonants = consonants;
+								common.createSetting.setSimpleCv.vowels = vowels;
+								common.createSetting.setSimpleCv.patterns = patterns;
 								break;
 							default:
 								break;
