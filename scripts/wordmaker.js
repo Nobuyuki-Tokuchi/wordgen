@@ -9,29 +9,23 @@ var dialogVue;
 		window.removeEventListener('load', _initEvent);
 	});
 
-	/**
-	 * OTMオブジェクト
-	 * @param id オブジェクトのID．
-	 * @param form 単語文字列
-	 */
-	function OtmWord(id, form) {
-		this.entry =  {
-			id: id,
-			form: form,
-		};
-
-		this.translations = [
-			{
-				forms: [""],
-				title: "",
+	// 共通で使用するもの(予定を含む)
+	let common = {
+		zpdic: {
+			alphabetOrder: "abcdefghijklmnopqrstuvwxyz"
+		},
+		createSetting: {
+			setSimple: {
+				letters: "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,y,z",
+				patterns: "5",
 			},
-		];
-
-		this.tags = [];
-		this.contents = [];
-		this.variations = [];
-		this.relations = [];
-	}
+			setSimpleCv: {
+				consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z",
+				vowels: "a,e,i,o,u,y",
+				patterns: "CVCCV",
+			}
+		},
+	};
 
 	// 初期化用関数
 	function init() {
@@ -51,9 +45,7 @@ var dialogVue;
 			data: {
 				words: [
 				],
-				zpdic: {
-					alphabetOrder: "abcdefghijklmnopqrstuvwxyz"
-				}
+				zpdic: common.zpdic,
 			},
 			methods: {
 				showDialog: function _showDialog() {
@@ -63,10 +55,10 @@ var dialogVue;
 					let form = "";
 					switch(dialogVue.mode.value) {
 						case WordGenerator.simple_symbol:
-							form = WordGenerator.simple(dialogVue.createSetting.setSimple);
+							form = WordGenerator.simple(common.createSetting.setSimple);
 							break;
 						case WordGenerator.simplecv_symbol:
-							form = WordGenerator.simplecv(dialogVue.createSetting.setSimpleCv);
+							form = WordGenerator.simplecv(common.createSetting.setSimpleCv);
 							break;
 						default:
 							break;
@@ -76,7 +68,6 @@ var dialogVue;
 				},
 				outputJson: function _outputJson() {
 					let blob = new Blob([ JSON.stringify(this.$data, undefined, 2) ], { type: "application/json" });
-					console.log(blob);
 
 					if(window.navigator.msSaveBlob) {
 						window.navigator.msSaveBlob(blob, "data.json");
@@ -109,17 +100,7 @@ var dialogVue;
 						//{ text: '多定義文字列生成', value: 'manytype' },
 					],
 				},
-				createSetting: {
-					setSimple: {
-						letters: "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,y,z",
-						patterns: "5",
-					},
-					setSimpleCv: {
-						consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z",
-						vowels: "a,e,i,o,u,y",
-						patterns: "CVCCV",
-					}
-				},
+				createSetting: common.createSetting,
 			},
 			computed: {
 				isSimple: function _isSimple() {
