@@ -64,9 +64,12 @@ var dialogVue;
 							break;
 					}
 
-					this.words.push(new OtmWord(id++, form));
+					this.words.push(new OtmWord(0, form));
 				},
 				outputJson: function _outputJson() {
+					this.words.forEach(function(x) { x.entry.id = id++; });
+					id = 1;
+
 					let blob = new Blob([ JSON.stringify(this.$data, undefined, 2) ], { type: "application/json" });
 
 					if(window.navigator.msSaveBlob) {
