@@ -1,7 +1,7 @@
 # WordMaker
 単語作成器っぽいもの
 
-### とりあえず試したい人へ
+## とりあえず試したい人へ
 [単語文字列生成器](https://nobuyuki-tokuchi.github.io/wordmaker_web/wordmaker.html)へアクセス．
 
 ## 使い方
