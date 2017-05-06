@@ -2,6 +2,11 @@
 .ntdialog {
 	position: absolute;
 	padding: 0;
+	display: none;
+}
+
+.ntdialog.show {
+	display: block;
 }
 
 .ntdialog > .ntdialog-header {

@@ -1,11 +1,28 @@
-#dialogVue {
-	text-align: left;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
+.half {
+	width: 48%;
+	min-width: 300px;
 }
 
-#dialogVue .setting input {
+#wordDisplay {
+	float: left;
+}
+
+#wordDisplay .dict {
+	max-height: 430px;
+	overflow-y: auto;
+}
+
+#settings {
+	float: right;
+	text-align: left;
+}
+
+#settings .createSettings {
+	max-height: 375px;
+	overflow-y: auto;
+}
+
+#settings .createSettings input {
 	box-sizing: border-box;
 	width: 100%;
 }
@@ -23,10 +40,11 @@ button {
 	font-size: 16px;
 }
 
+.half .dict {
+	overflow-y:auto;
+}
+
 .zpword {
-	width: 50%;
-	min-width: 360px;
-	max-width: 720px;
 	padding: 5px;
 }
 

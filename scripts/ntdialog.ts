@@ -104,14 +104,14 @@ class NtDialog {
 			if(this.top + this.base.clientHeight > this.movableArea.bottom) { this.top = this.movableArea.bottom - this.base.clientHeight; }
 			if(this.left + this.base.clientWidth > this.movableArea.right) { this.left = this.movableArea.right - this.base.clientWidth; }
 
-			this.base.setAttribute('style', 'top: '+ this.top +'px; left: '+ this.left +'px;');
+			this.base.setAttribute('style', 'top: '+ this.top +'px; left: '+ this.left +'px; width: '+ this.width +'px');
 		}
 
-		this.base.style.display = 'block';
+		this.base.classList.add('show');
 	}
 
 	public hide(): void {
-		this.base.style.display = 'none';
+		this.base.classList.remove('show');
 	}
 
 	public draggable(enable: boolean): void {
@@ -176,7 +176,7 @@ class NtDialog {
 		if (this.basePos.top < this.movableArea.top) { this.basePos.top = this.movableArea.top; }
 		else if(this.basePos.top > this.movableArea.bottom - height) { this.pagePos.y = this.basePos.top = this.movableArea.bottom - height; }
 
-		this.base.setAttribute('style', 'top: '+ this.basePos.top +'px; left: '+ this.basePos.left +'px; display: block;');
+		this.base.setAttribute('style', 'top: '+ this.basePos.top +'px; left: '+ this.basePos.left +'px;');
 		this.mousePos = this.pagePos;
 
 		return false;

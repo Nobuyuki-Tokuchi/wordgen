@@ -54,7 +54,7 @@ var NtDialog = (function () {
             else if (_this.basePos.top > _this.movableArea.bottom - height) {
                 _this.pagePos.y = _this.basePos.top = _this.movableArea.bottom - height;
             }
-            _this.base.setAttribute('style', 'top: ' + _this.basePos.top + 'px; left: ' + _this.basePos.left + 'px; display: block;');
+            _this.base.setAttribute('style', 'top: ' + _this.basePos.top + 'px; left: ' + _this.basePos.left + 'px;');
             _this.mousePos = _this.pagePos;
             return false;
         };
@@ -132,12 +132,12 @@ var NtDialog = (function () {
             if (this.left + this.base.clientWidth > this.movableArea.right) {
                 this.left = this.movableArea.right - this.base.clientWidth;
             }
-            this.base.setAttribute('style', 'top: ' + this.top + 'px; left: ' + this.left + 'px;');
+            this.base.setAttribute('style', 'top: ' + this.top + 'px; left: ' + this.left + 'px; width: ' + this.width + 'px');
         }
-        this.base.style.display = 'block';
+        this.base.classList.add('show');
     };
     NtDialog.prototype.hide = function () {
-        this.base.style.display = 'none';
+        this.base.classList.remove('show');
     };
     NtDialog.prototype.draggable = function (enable) {
         this.isDraggable = enable;

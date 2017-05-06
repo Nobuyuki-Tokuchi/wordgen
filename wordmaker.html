@@ -13,16 +13,16 @@
 </head>
 <body>
 	<h1>単語文字列生成器</h1>
-	<div id='app'>
+
+	<div id='wordDisplay' class='half'>
+		<h2>生成文字列一覧</h2>
 		<div>
-			<button @click='showDialog'>設定画面</button>
 			<button @click='create'>作成</button>
-			<button @click='outputJson'>OTM-JSONを出力</button>
+			<button @click='removeAll'>全削除</button>
+			<button @click='outputOtmJson'>OTM-JSONを出力</button>
 		</div>
-		<div>
-			<h2>生成文字列一覧</h2>
-			<div v-for='(word, index) in words'>
-				<div class="zpword">
+		<div class='dict'>
+			<div class='zpword' v-for='(word, index) in words'>
 					<div class="entry">
 						<label for="">単語</label>
 						<input type="text" v-model="word.entry.form" class="form" />
@@ -38,12 +38,55 @@
 							<input type="text" v-model="translation.forms[0]" class="forms">
 						</div>
 					</div>
-				</div>
 			</div>
 		</div>
 	</div>
 
-	<div id="dialogs" class="ntdialog" style="display: none;">
+	<div id="settings" class='half'>
+		<h2>設定</h2>
+		<div>
+			<span>設定ファイル入力：</span>
+			<input type='file' @change='importSetting($event)'>
+		</div>
+		<div>
+			<span>設定ファイル出力：</span>
+			<button @click='exportSetting($event)'>出力</button>
+		</div>
+		<hr />
+		<div>
+			<select v-model='mode.value'>
+				<option v-for='option in mode.options' v-bind:value='option.value'>
+					{{ option.text }}
+				</option>
+			</select>
+		</div>
+		<div class="createSettings" v-show="isSimple">
+			<div>
+				<span>使用文字</span>
+				<input type="text" v-model="createSettings.setSimple.letters">
+			</div>
+			<div>
+				<span>文字列長(カンマ区切りで複数記述可)</span>
+				<input type="text" v-model="createSettings.setSimple.patterns">
+			</div>
+		</div>
+		<div class="createSettings" v-show="isSimpleCv">
+			<div>
+				<span>子音文字</span>
+				<input type="text" v-model="createSettings.setSimpleCv.consonants">
+			</div>
+			<div>
+				<span>母音文字</span>
+				<input type="text" v-model="createSettings.setSimpleCv.vowels">
+			</div>
+			<div>
+				<span>文字列構成(カンマ区切りで複数記述可)</span>
+				<input type="text" v-model="createSettings.setSimpleCv.patterns">
+			</div>
+		</div>
+	</div>
+
+	<div id="dialogs" class="ntdialog">
 		<div class="ntdialog-header">
 			<label class="ntdialog-title"></label>
 			<button class="ntdialog-minimize"></button>
@@ -51,44 +94,6 @@
 			<button class="ntdialog-close"></button>
 		</div>
 		<div class="ntdialog-body">
-			<div id="dialogVue">
-				<div>
-					<span>設定ファイル読み込み：</span>
-					<input type='file' @change='inputSetting($event)'>
-				</div>
-				<hr />
-				<div>
-					<select v-model='mode.value'>
-						<option v-for='option in mode.options' v-bind:value='option.value'>
-							{{ option.text }}
-						</option>
-					</select>
-				</div>
-				<div class="setting" v-show="isSimple">
-					<div>
-						<span>使用文字</span>
-						<input type="text" v-model="createSetting.setSimple.letters">
-					</div>
-					<div>
-						<span>文字列長(カンマ区切りで複数記述可)</span>
-						<input type="text" v-model="createSetting.setSimple.patterns">
-					</div>
-				</div>
-				<div class="setting" v-show="isSimpleCv">
-					<div>
-						<span>子音文字</span>
-						<input type="text" v-model="createSetting.setSimpleCv.consonants">
-					</div>
-					<div>
-						<span>母音文字</span>
-						<input type="text" v-model="createSetting.setSimpleCv.vowels">
-					</div>
-					<div>
-						<span>文字列構成(カンマ区切りで複数記述可)</span>
-						<input type="text" v-model="createSetting.setSimpleCv.patterns">
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 
