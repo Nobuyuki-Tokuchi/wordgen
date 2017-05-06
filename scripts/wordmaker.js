@@ -1,7 +1,7 @@
-var buttons;
 var wordDisplay;
 var settings;
-var dialog;
+var equivalentDialog;
+var equivalentChoice;
 
 (function () {
 	// 画面ロード時に初期化処理を呼び出す
@@ -36,30 +36,41 @@ var dialog;
 			zpdic: {
 				alphabetOrder: "abcdefghijklmnopqrstuvwxyz"
 			},
-		}
+		},
+		equivalent: {
+			index: -1,
+			value: "",
+			words: [
+			],
+		},
 	};
+
+	data.equivalent.words = equivalents;
 
 	// 初期化用関数
 	function init() {
-		// 詳細設定ダイアログの初期化
-		dialog = new NtDialog("詳細設定", {
+		// 訳語選択ダイアログの初期化
+		equivalentDialog = new NtDialog("訳語選択", {
 			top: 100, left:500,
-			width: 500, height: 200,
+			width: 300, height: 200,
 			style: 'flat',
 			draggable: true,
-			dialog: document.getElementById('dialogs'),
+			dialog: document.getElementById('equivalentDialog'),
 		});
+
+		equivalentDialog.onhide = function() {
+			data.equivalent.index = -1;
+			data.equivalent.value = "";
+		}
 
 		// 生成文字列一覧のVMの初期化
 		wordDisplay = new Vue({
 			el: '#wordDisplay',
 			data: {
 				words: data.dict.words,
+				isDisabled: false,
 			},
 			methods: {
-				showDialog: function _showDialog() {
-					dialog.show();
-				},
 				create: function _create() {
 					let form = "";
 					switch(settings.mode.value) {
@@ -80,12 +91,21 @@ var dialog;
 
 					exportJson(data.dict, "data.json");
 				},
+				removeAll: function _removeAll() {
+					this.words.splice(0, this.words.length);
+				},
+
+				// 個々に行う処理
+				setEquivalent: function _setEquivalents(index) {
+					data.equivalent.index = index;
+					equivalentDialog.show();
+				},
 				remove: function _remove(index) {
 					this.words.splice(index, 1);
 				},
-				removeAll: function _removeAll() {
-					this.words.splice(0, this.words.length);
-				}
+				splitter: function _splitter(value) {
+					return value.split(",").map(function(x) { return x.trim(); });
+				},
 			},
 		});
 
@@ -136,6 +156,25 @@ var dialog;
 					exportJson(exportData, "setting.json");
 				},
 			}
+		});
+
+		//
+		equivalentChoice = new Vue({
+			el: '#equivalentChoice ',
+			data: {
+				equivalent: data.equivalent,
+			},
+			methods: {
+				setTranslation: function _addTranslation() {
+					if(this.equivalent.value) {
+						data.dict.words[this.equivalent.index].translations[0].forms.push(this.equivalent.value);
+					}
+					equivalentDialog.hide();
+				},
+				cancel: function _cancel() {
+					equivalentDialog.hide();
+				},
+			},
 		});
 	}
 

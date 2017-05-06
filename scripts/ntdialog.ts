@@ -4,11 +4,29 @@ class NtDialog {
 	protected title: string;
 	protected style: string;
 
-	// 移動可能範囲
+	/**
+	 * 表示時に常に実行されるコールバック関数
+	 */
+	public onshow: () => void;
+
+	/**
+	 * 非表示時に常に実行されるコールバック関数
+	 */
+	public onhide: () => void;
+
+	/**
+	 * 移動可能範囲
+	 */
 	protected movableArea: { top: number; left: number; right: number; bottom: number; };
 
-	// 左上からの位置
+	/**
+	 * 左からの位置
+	 */
 	protected top: number;
+
+	/**
+	 * 上からの位置
+	 */
 	protected left: number;
 
 	// ダイアログの大きさ
@@ -30,6 +48,11 @@ class NtDialog {
 	protected isDraggable: boolean; // ドラッグ移動可能状態
 	protected isAutoSettingMovableArea: boolean; // 移動可能範囲自動割り当て
 
+	/**
+	 * コンストラクタ
+	 * @param title タイトル
+	 * @param settings 設定
+	 */
 	constructor(title: string, settings: { [ key: string ]: any } = {}) {
 		this.title = title;
 		this.style = settings['style'] || 'default';
@@ -97,7 +120,11 @@ class NtDialog {
 		}
 	}
 
-	public show(): void {
+	/**
+	 * ダイアログを表示する
+	 * @param callback 使用するコールバック関数
+	 */
+	public show(callback?: () => void): void {
 		if(!this.isMaximize) {
 			if(this.top < this.movableArea.top) { this.top = this.movableArea.top; }
 			if(this.left < this.movableArea.left) { this.left = this.movableArea.left; }
@@ -108,17 +135,42 @@ class NtDialog {
 		}
 
 		this.base.classList.add('show');
+		
+		if(this.onshow) {
+			this.onshow();
+		}
+		if(callback) {
+			callback();
+		}
 	}
 
-	public hide(): void {
+	/**
+	 * ダイアログを非表示する
+	 * @param callback 使用するコールバック関数
+	 */
+	public hide(callback?: () => void): void {
 		this.base.classList.remove('show');
+
+		if(this.onhide) {
+			this.onhide();
+		}
+		if(callback) {
+			callback();
+		}
 	}
 
+	/**
+	 * ドラッグ移動を可能にするかどうかを設定する
+	 * @param enable ドラッグ移動を可能にするかどうか
+	 */
 	public draggable(enable: boolean): void {
 		this.isDraggable = enable;
 		this.setDraggable();
 	}
 
+	/**
+	 * ドラッグ移動の設定を行う
+	 */
 	private setDraggable(): void {
 		if (this.isDraggable && !this.isMaximize) {
 			this.header.addEventListener('mousedown', this.headerMousedown, false);

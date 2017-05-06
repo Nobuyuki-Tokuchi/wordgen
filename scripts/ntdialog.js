@@ -1,4 +1,9 @@
 var NtDialog = (function () {
+    /**
+     * コンストラクタ
+     * @param title タイトル
+     * @param settings 設定
+     */
     function NtDialog(title, settings) {
         if (settings === void 0) { settings = {}; }
         var _this = this;
@@ -118,7 +123,11 @@ var NtDialog = (function () {
             this.draggable(false);
         }
     }
-    NtDialog.prototype.show = function () {
+    /**
+     * ダイアログを表示する
+     * @param callback 使用するコールバック関数
+     */
+    NtDialog.prototype.show = function (callback) {
         if (!this.isMaximize) {
             if (this.top < this.movableArea.top) {
                 this.top = this.movableArea.top;
@@ -135,14 +144,37 @@ var NtDialog = (function () {
             this.base.setAttribute('style', 'top: ' + this.top + 'px; left: ' + this.left + 'px; width: ' + this.width + 'px');
         }
         this.base.classList.add('show');
+        if (this.onshow) {
+            this.onshow();
+        }
+        if (callback) {
+            callback();
+        }
     };
-    NtDialog.prototype.hide = function () {
+    /**
+     * ダイアログを非表示する
+     * @param callback 使用するコールバック関数
+     */
+    NtDialog.prototype.hide = function (callback) {
         this.base.classList.remove('show');
+        if (this.onhide) {
+            this.onhide();
+        }
+        if (callback) {
+            callback();
+        }
     };
+    /**
+     * ドラッグ移動を可能にするかどうかを設定する
+     * @param enable ドラッグ移動を可能にするかどうか
+     */
     NtDialog.prototype.draggable = function (enable) {
         this.isDraggable = enable;
         this.setDraggable();
     };
+    /**
+     * ドラッグ移動の設定を行う
+     */
     NtDialog.prototype.setDraggable = function () {
         if (this.isDraggable && !this.isMaximize) {
             this.header.addEventListener('mousedown', this.headerMousedown, false);
