@@ -22,12 +22,12 @@ var dialog;
 		createSettings: {
 			setSimple: {
 				letters: "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,y,z",
-				patterns: "5",
+				patterns: "4,5",
 			},
 			setSimpleCv: {
-				consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z",
-				vowels: "a,e,i,o,u,y",
-				patterns: "CVCCV",
+				consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z",
+				vowels: "a,e,i,o,u",
+				patterns: "CV*CV,CVC",
 			}
 		},
 		dict: {
