@@ -27,6 +27,14 @@
 	width: 100%;
 }
 
+#settings .createSettings input.letter {
+	width: 15%;
+}
+
+#settings .createSettings input.nextLetters {
+	width: 60%;
+}
+
 body {
 	background-color: #EEEEFF;
 }

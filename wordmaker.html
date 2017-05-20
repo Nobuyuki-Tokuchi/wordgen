@@ -86,6 +86,29 @@
 				<input type="text" v-model="createSettings.setSimpleCv.patterns">
 			</div>
 		</div>
+		<div class="createSettings" v-show="isChainCv">
+			<div>
+				<span>子音文字</span>
+				<input type="text" v-model="createSettings.setChainCv.consonants">
+			</div>
+			<div>
+				<span>母音文字</span>
+				<input type="text" v-model="createSettings.setChainCv.vowels">
+			</div>
+			<div>
+				<span>文字列構成(カンマ区切りで複数記述可)</span>
+				<input type="text" v-model="createSettings.setChainCv.patterns">
+			</div>
+			<div>
+				<span>遷移可能文字設定</span>
+				<div v-for="(transition, index)  in createSettings.setChainCv.transitions">
+					<input type="text" class="letter" v-model="transition.letter">
+					<input type="text" class="nextLetters" v-model="transition.nextLetters">
+					<button>削除</button>
+				</div>
+				<button>追加</button>
+			</div>
+		</div>
 	</div>
 
 	<div id="equivalentDialog" class="ntdialog">

@@ -13,8 +13,8 @@ var equivalentChoice;
 	let constant = {
 		options: [
 			{ text: '単純文字列生成', value: WordGenerator.simple_symbol },
-			{ text: '母子音別定義単純文字列生成', value: WordGenerator.simplecv_symbol },
-			//{ text: '多定義文字列生成', value: WordGenerator.manytype_symbol },
+			{ text: '母子音字別定義単純文字列生成', value: WordGenerator.simplecv_symbol },
+			{ text: '母子音字別定義依存遷移型文字列生成', value: WordGenerator.chaincv_symbol },
 		],
 	}
 
@@ -28,7 +28,39 @@ var equivalentChoice;
 				consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z",
 				vowels: "a,e,i,o,u",
 				patterns: "CV*CV,CVC",
-			}
+			},
+			setChainCv: {
+				consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z",
+				vowels: "a,e,i,o,u",
+				patterns: "CV*CV,CVC",
+				transitions: [
+					{ letter: "a", nextLetters : "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z" },
+					{ letter: "b", nextLetters : "a,e,i,o,u"},
+					{ letter: "c", nextLetters : "a,e,i,o,u"},
+					{ letter: "d", nextLetters : "a,e,i,o,u"},
+					{ letter: "e", nextLetters : "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z"},
+					{ letter: "f", nextLetters : "a,e,i,o,u"},
+					{ letter: "g", nextLetters : "a,e,i,o,u"},
+					{ letter: "h", nextLetters : "a,e,i,o,u"},
+					{ letter: "i", nextLetters : "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z"},
+					{ letter: "j", nextLetters : "a,e,i,o,u"},
+					{ letter: "k", nextLetters : "a,e,i,o,u"},
+					{ letter: "l", nextLetters : "a,e,i,o,u"},
+					{ letter: "m", nextLetters : "a,e,i,o,u"},
+					{ letter: "n", nextLetters : "a,e,i,o,u"},
+					{ letter: "o", nextLetters : "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z"},
+					{ letter: "p", nextLetters : "a,e,i,o,u"},
+					{ letter: "r", nextLetters : "a,e,i,o,u"},
+					{ letter: "s", nextLetters : "a,e,i,o,u"},
+					{ letter: "t", nextLetters : "a,e,i,o,u"},
+					{ letter: "u", nextLetters : "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z"},
+					{ letter: "v", nextLetters : "a,e,i,o,u"},
+					{ letter: "w", nextLetters : "a,e,i,o,u"},
+					{ letter: "x", nextLetters : "a,e,i,o,u"},
+					{ letter: "y", nextLetters : "a,e,i,o,u"},
+					{ letter: "z", nextLetters : "a,e,i,o,u"},
+				],
+			},
 		},
 		dict: {
 			words: [
@@ -80,6 +112,9 @@ var equivalentChoice;
 						case WordGenerator.simplecv_symbol:
 							form = WordGenerator.simplecv(data.createSettings.setSimpleCv);
 							break;
+						case WordGenerator.chaincv_symbol:
+							form = WordGenerator.chaincv(data.createSettings.setChainCv);
+							break;
 						default:
 							break;
 					}
@@ -126,6 +161,9 @@ var equivalentChoice;
 				isSimpleCv: function _isSimpleCv() {
 					return this.mode.value === WordGenerator.simplecv_symbol;
 				},
+				isChainCv: function _isChainCv() {
+					return this.mode.value === WordGenerator.chaincv_symbol;
+				},
 			},
 			methods: {
 				importSetting: function _importSetting(ev) {
@@ -151,6 +189,7 @@ var equivalentChoice;
 						mode: this.mode.value,
 						setSimple: this.createSettings.setSimple,
 						setSimpleCv: this.createSettings.setSimpleCv,
+						setChainCv: this.createSettings.setChainCv,
 					};
 
 					exportJson(exportData, "setting.json");
@@ -192,6 +231,7 @@ var equivalentChoice;
 
 		data.createSettings.setSimple = settings.setSimple;
 		data.createSettings.setSimpleCv = settings.setSimpleCv;
+		data.createSettings.setChainCv = setting.setChainCv;
 
 		return settings.mode;
 	}
@@ -239,9 +279,47 @@ var equivalentChoice;
 				data.createSettings.setSimpleCv.vowels = vowels;
 				data.createSettings.setSimpleCv.patterns = patterns;
 				break;
+			case WordGenerator.chaincv_symbol:
+				setChainCv(arr);
+				break;
+			break;
 			default:
 				break;
 		}
+	}
+
+	/**
+	 * テキスト形式から読み込んだ母子音字別定義依存遷移型文字列生成の設定を適用するための関数．
+	 */
+	function setChainCv(arr) {
+		let consonants = "";
+		let vowels = "";
+		let transitions = [];
+
+		for(let i = 0; i < arr.length; i++) {
+			let split = arr[i].split(/\s*=\s*/);
+			switch(split[0].trim()) {
+				case "consonants":
+					consonants = split[1];
+					break;
+				case "vowels":
+					vowels = split[1];
+					break;
+				case "patterns":
+					patterns = split[1];
+					break;
+				default:
+					if(consonants.indexOf(split[0]) !== 0 || vowels.indexOf(split[0]) !== 0) {
+						transitions.push({ letter: split[0], nextLetters: split[1] });
+					}
+					break;
+			}
+		}
+
+		data.createSettings.setChainCv.consonants = consonants;
+		data.createSettings.setChainCv.vowels = vowels;
+		data.createSettings.setChainCv.patterns = patterns;
+		data.createSettings.setChainCv.transitions = transitions;
 	}
 
 	/**

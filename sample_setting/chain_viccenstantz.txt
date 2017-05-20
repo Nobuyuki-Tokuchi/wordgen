@@ -1,0 +1,38 @@
+# 改行不可なので注意
+
+# 子音設定
+consonants = b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z
+
+# 母音設定
+vowels = a,e,i,o,u,y
+
+# 以下[文字] = [後ろに置ける文字]
+a = a,b,c,d,dz,f,g,h,i,j,k,l,m,n,p,r,s,t,u,v,w,x,z
+b = b,c,d,dz,e,g,i,l,o,r,s,u,x,y,z
+c = a,b,c,d,e,i,k,l,m,n,o,p,r,t,u,v,w,y,z
+d = a,b,d,e,i,l,m,n,o,r,s,u,v,w,y
+dz = a,d,e,i,l,m,n,o,r,u,v,w,y
+e = b,c,d,dz,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,z
+f = a,c,e,f,i,j,l,o,r,s,t,u,x,y,z
+g = a,e,i,o,u,y
+h = a,e,i,o,u,y
+i = b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z
+j = a,e,i,o,u,y
+k = a,e,i,o,u,y
+l = a,e,i,o,u,y
+m = a,e,i,o,u,y
+n = a,e,i,o,u,y
+o = b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z
+p = a,e,i,o,u,y
+r = a,e,i,o,u,y
+s = a,e,i,o,u,y
+t = a,e,i,o,u,y
+u = b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z
+v = a,e,i,o,u,y
+w = a,e,i,o,u,y
+x = a,e,i,o,u,y
+y = b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z
+z = a,e,i,o,u,y
+
+# 作成パターン設定
+patterns = CVCCV,CVC,CVVC
