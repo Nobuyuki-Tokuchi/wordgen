@@ -231,7 +231,7 @@ var equivalentChoice;
 
 		data.createSettings.setSimple = settings.setSimple;
 		data.createSettings.setSimpleCv = settings.setSimpleCv;
-		data.createSettings.setChainCv = setting.setChainCv;
+		data.createSettings.setChainCv = settings.setChainCv;
 
 		return settings.mode;
 	}

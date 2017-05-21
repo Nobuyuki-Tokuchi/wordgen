@@ -1,13 +1,13 @@
 {
   "mode": "chaincv",
   "setSimple": {
-    "letters": "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,y,z",
+    "letters": "a,b,c,d,e,f,g,h,i,j,k,l,m,,n,o,p,r,s,t,u,v,w,x,y,z",
     "patterns": "4,5"
   },
   "setSimpleCv": {
-    "consonants": "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z",
-    "vowels": "a,e,i,o,u",
-    "patterns": "CV*CV,CVC"
+    "consonants": "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z",
+    "vowels": "a,e,i,o,u,y",
+    "patterns": "CVCCV,CVC,CVVC"
   },
   "setChainCv": {
     "consonants": "b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z",
@@ -40,75 +40,75 @@
       },
       {
         "letter": "f",
-        "nextLetters": "a,c,e,f,i,j,l,o,r,s,t,u,x,y,z"
+        "nextLetters": "a,c,dz,e,f,i,l,o,r,s,t,u,x,y,z"
       },
       {
         "letter": "g",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,b,c,d,e,g,i,l,m,n,o,r,s,u,v,x,y"
       },
       {
         "letter": "h",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,dz,e,i,l,o,r,u,y"
       },
       {
         "letter": "i",
-        "nextLetters": "b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z"
+        "nextLetters": "b,c,d,dz,e,f,g,h,k,l,m,n,p,r,s,t,v,w,x,z"
       },
       {
         "letter": "j",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,e,m,o,u,y"
       },
       {
         "letter": "k",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,c,dz,e,f,i,k,l,m,n,o,p,r,s,t,u,v,x,y,z"
       },
       {
         "letter": "l",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,b,c,d,dz,e,f,g,h,i,k,l,m,n,o,p,s,t,u,v,x,y,z"
       },
       {
         "letter": "m",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,b,c,e,f,i,m,o,p,s,u,v,w,x,y"
       },
       {
         "letter": "n",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,c,d,e,g,i,k,n,o,s,t,u,x,y,z"
       },
       {
         "letter": "o",
-        "nextLetters": "b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z"
+        "nextLetters": "b,c,d,dz,f,g,h,i,j,k,l,m,n,p,r,s,t,u,v,w,x,z"
       },
       {
         "letter": "p",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,c,dz,e,i,l,o,p,r,t,u,x,y,z"
       },
       {
         "letter": "r",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,b,c,,d,e,f,g,i,k,m,n,o,p,s,t,u,v,w,x,y,z"
       },
       {
         "letter": "s",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,d,e,g,i,l,m,n,o,r,s,u,v,w,y"
       },
       {
         "letter": "t",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,c,e,i,l,m,n,o,p,r,t,u,v,w,x,y,z"
       },
       {
         "letter": "u",
-        "nextLetters": "b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z"
+        "nextLetters": "b,c,d,dz,e,f,g,h,j,k,l,m,n,o,p,r,s,t,u,v,w,x,z"
       },
       {
         "letter": "v",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,c,d,e,i,l,o,r,s,t,u,v,x,y,z"
       },
       {
         "letter": "w",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,c,e,i,o,r,x"
       },
       {
         "letter": "x",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,d,e,g,i,k,l,m,n,o,p,r,t,u,v,w,x,y,z"
       },
       {
         "letter": "y",
@@ -116,7 +116,7 @@
       },
       {
         "letter": "z",
-        "nextLetters": "a,e,i,o,u,y"
+        "nextLetters": "a,e,i,k,l,m,n,o,p,r,t,u,v,w,y,z"
       }
     ]
   }
