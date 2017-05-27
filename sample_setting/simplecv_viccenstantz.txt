@@ -1,7 +1,7 @@
 # simpleの方と違い改行不可なので注意
 
 # 子音設定
-consonants = b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z
+consonants = b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z
 
 # 母音設定
 vowels = a,e,i,o,u,y
