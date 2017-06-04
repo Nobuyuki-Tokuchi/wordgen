@@ -1,15 +1,15 @@
 {
   "mode": "chaincv",
-  "setSimple": {
+  "simple": {
     "letters": "a,b,c,d,dz,e,f,g,h,i,j,k,l,m,,n,o,p,r,s,t,u,v,w,x,y,z",
     "patterns": "4,5"
   },
-  "setSimpleCv": {
+  "simplecv": {
     "consonants": "b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z",
     "vowels": "a,e,i,o,u,y",
     "patterns": "CVCCV,CVC,CVVC"
   },
-  "setChainCv": {
+  "chaincv": {
     "consonants": "b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z",
     "vowels": "a,e,i,o,u,y",
     "patterns": "CVCCV,CVC,CVVC",

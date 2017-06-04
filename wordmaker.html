@@ -9,7 +9,9 @@
 	<script src="./scripts/ntdialog.js"></script>
 	<script src="./scripts/otmword.js"></script>
 	<script src="./scripts/wgenerator.js"></script>
-	<script src="./scripts/equivalents.js"></script>
+	<script src="./scripts/wmmodules.js"></script>
+	<script src="./scripts/worddisplayvm.js"></script>
+	<script src="./scripts/settingvm.js"></script>
 	<script src="./scripts/wordmaker.js"></script>
 </head>
 <body>
@@ -20,15 +22,15 @@
 		<div>
 			<button @click='create' v-bind:disabled="isDisabled">作成</button>
 			<button @click='removeAll' v-bind:disabled="isDisabled">全削除</button>
-			<button @click='outputOtmJson' v-bind:disabled="isDisabled">OTM-JSONを出力</button>
+			<button @click='outputOtmJSON' v-bind:disabled="isDisabled">OTM-JSONを出力</button>
 		</div>
 		<div class='dict'>
-			<div class='zpword' v-for='(word, index) in words'>
+			<div class='zpword' v-for='word in dictionary.words'>
 					<div class="entry">
 						<label for="">単語</label>
 						<input type="text" v-model="word.entry.form" class="form" />
-						<button @click="setEquivalent(index)" v-bind:disabled="isDisabled">訳語追加</button>
-						<button @click="remove(index)" v-bind:disabled="isDisabled">削除</button>
+						<button @click="setEquivalent(word)" v-bind:disabled="isDisabled">訳語追加</button>
+						<button @click="remove(word)" v-bind:disabled="isDisabled">削除</button>
 					</div>
 					<div v-for='translation in word.translations' class="translations">
 						<div>
@@ -56,52 +58,52 @@
 		</div>
 		<hr />
 		<div>
-			<select v-model='mode.value'>
-				<option v-for='option in mode.options' v-bind:value='option.value'>
-					{{ option.text }}
+			<select v-model='createSetting.mode'>
+				<option v-for='type in generatorType' v-bind:value='type.value'>
+					{{ type.text }}
 				</option>
 			</select>
 		</div>
 		<div class="createSettings" v-show="isSimple">
 			<div>
 				<span>使用文字</span>
-				<input type="text" v-model="createSettings.setSimple.letters">
+				<input type="text" v-model="createSetting.simple.letters">
 			</div>
 			<div>
 				<span>文字列長(カンマ区切りで複数記述可)</span>
-				<input type="text" v-model="createSettings.setSimple.patterns">
+				<input type="text" v-model="createSetting.simple.patterns">
 			</div>
 		</div>
 		<div class="createSettings" v-show="isSimpleCv">
 			<div>
 				<span>子音文字</span>
-				<input type="text" v-model="createSettings.setSimpleCv.consonants">
+				<input type="text" v-model="createSetting.simplecv.consonants">
 			</div>
 			<div>
 				<span>母音文字</span>
-				<input type="text" v-model="createSettings.setSimpleCv.vowels">
+				<input type="text" v-model="createSetting.simplecv.vowels">
 			</div>
 			<div>
 				<span>文字列構成(カンマ区切りで複数記述可)</span>
-				<input type="text" v-model="createSettings.setSimpleCv.patterns">
+				<input type="text" v-model="createSetting.simplecv.patterns">
 			</div>
 		</div>
 		<div class="createSettings" v-show="isChainCv">
 			<div>
 				<span>子音文字</span>
-				<input type="text" v-model="createSettings.setChainCv.consonants">
+				<input type="text" v-model="createSetting.chaincv.consonants">
 			</div>
 			<div>
 				<span>母音文字</span>
-				<input type="text" v-model="createSettings.setChainCv.vowels">
+				<input type="text" v-model="createSetting.chaincv.vowels">
 			</div>
 			<div>
 				<span>文字列構成(カンマ区切りで複数記述可)</span>
-				<input type="text" v-model="createSettings.setChainCv.patterns">
+				<input type="text" v-model="createSetting.chaincv.patterns">
 			</div>
 			<div>
 				<span>遷移可能文字設定</span>
-				<div v-for="(transition, index)  in createSettings.setChainCv.transitions">
+				<div v-for="(transition, index)  in createSetting.chaincv.transitions">
 					<input type="text" class="letter" v-model="transition.letter">
 					<input type="text" class="nextLetters" v-model="transition.nextLetters">
 					<button>削除</button>

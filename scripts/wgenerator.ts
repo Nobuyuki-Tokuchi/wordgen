@@ -37,17 +37,17 @@ class WordGenerator {
 	/**
 	 * 単純文字列生成を表すシンボル
 	 */
-	public static simple_symbol = "simple";
+	public static SIMPLE_SYMBOL = "simple";
 
 	/**
 	 * 母子音文字別定義単純文字列生成を表すシンボル
 	 */
-	public static simplecv_symbol = "simplecv";
+	public static SIMPLECV_SYMBOL = "simplecv";
 
 	/**
 	 * 母子音文字別定義文字列生成を表示シンボル
 	 */
-	public static chaincv_symbol = "chaincv";
+	public static CHAINCV_SYMBOL = "chaincv";
 
 	/**
 	 * 単純文字列生成を行うメソッド
