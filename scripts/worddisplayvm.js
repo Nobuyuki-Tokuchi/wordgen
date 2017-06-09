@@ -1,9 +1,18 @@
 ///<reference path="./otmword.ts" />
 ///<reference path="./wmmodules.ts" />
 ///<reference path="./wgenerator.ts" />
+/**
+ * WordDisplayの持つdataのインターフェイス
+ */
 class WordDisplayData {
 }
 class WordDisplayVM {
+    /**
+     * コンストラクタ
+     * @param el バインディングを適用するタグのid
+     * @param dict OTM形式辞書クラス
+     * @param createSetting 単語文字列作成に使用する設定
+     */
     constructor(el, dict, createSetting) {
         this.el = el;
         this.data = {
@@ -14,6 +23,9 @@ class WordDisplayVM {
         };
         this.initMethods();
     }
+    /**
+     * VMで使用するメソッドを定義するメソッド
+     */
     initMethods() {
         this.methods = {
             create: function _create() {

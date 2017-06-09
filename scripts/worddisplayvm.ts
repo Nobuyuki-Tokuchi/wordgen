@@ -2,10 +2,14 @@
 ///<reference path="./wmmodules.ts" />
 ///<reference path="./wgenerator.ts" />
 
+/**
+ * WordDisplayの持つdataのインターフェイス
+ */
 class WordDisplayData {
 	dictionary: OtmDictionary;
-	isDisabled: boolean;
 	createSetting: GeneratorSettings;
+	isDisabled: boolean;
+	id: number;
 }
 
 class WordDisplayVM {
@@ -13,6 +17,12 @@ class WordDisplayVM {
 	data: WordDisplayData;
 	methods: {[key: string]: any};
 
+	/**
+	 * コンストラクタ
+	 * @param el バインディングを適用するタグのid
+	 * @param dict OTM形式辞書クラス
+	 * @param createSetting 単語文字列作成に使用する設定
+	 */
 	constructor(el: string, dict: OtmDictionary, createSetting: GeneratorSettings) {
 		this.el = el;
 
@@ -26,6 +36,9 @@ class WordDisplayVM {
 		this.initMethods();
 	}
 
+	/**
+	 * VMで使用するメソッドを定義するメソッド
+	 */
 	initMethods(): void {
 		this.methods = {
 			create: function _create() {
@@ -68,14 +81,14 @@ class WordDisplayVM {
 			},
 
 			// 個々で使用する部分
-			setEquivalent: function _setEquivalents(word) {
+			setEquivalent: function _setEquivalents(word: OtmWord) {
 			},
 
-			remove: function _remove(word) {
+			remove: function _remove(word: OtmWord) {
 				this.dictionary.remove(word.entry.id);
 			},
 
-			splitter: function _splitter(value) {
+			splitter: function _splitter(value: string) {
 				return value.split(",").map(function(x) { return x.trim(); });
 			},
 		};

@@ -15,6 +15,11 @@ class WMModules {
             chaincv: Object.create(WMModules.DEFAULT_SET.CHAINCV),
         };
     }
+    /**
+     * 指定されたデータをJSON化し，指定されたファイル名でダウンロードさせます
+     * @param data JSON化した後にダウンロードさせるファイル
+     * @param fileName ファイル名
+     */
     static exportJSON(data, fileName) {
         let blob = new Blob([JSON.stringify(data, undefined, 2)], { type: "application/json" });
         if (window.navigator.msSaveBlob) {

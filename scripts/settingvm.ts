@@ -2,6 +2,9 @@
 ///<reference path="./wmmodules.ts" />
 ///<reference path="./wgenerator.ts" />
 
+/**
+ * SettingVMの持つdataのインターフェース
+ */
 class SettingData {
 	generatorType: [{ text: string, value: string }];
 	createSetting: GeneratorSettings;
@@ -13,6 +16,11 @@ class SettingVM {
 	methods: {[key: string]: any};
 	computed: {[key: string]: any};
 
+	/**
+	 * コンストラクタ
+	 * @param el バインディングを適用するタグのid
+	 * @param createSetting 単語文字列作成に使用する設定
+	 */
 	constructor(el: string, createSetting: GeneratorSettings) {
 		this.el = el;
 
@@ -25,7 +33,10 @@ class SettingVM {
 		this.initComputed();
 	}
 
-	initMethods() {
+	/**
+	 * VMで使用するメソッドを定義するメソッド
+	 */
+	private initMethods():void {
 		this.methods = {
 			importSetting: function _importSetting(ev): void {
 				let file = ev.target.files[0];
@@ -34,12 +45,18 @@ class SettingVM {
 				reader.onload = () => {
 					let result = reader.result;
 
+					let setting;
 					if(file.name.endsWith(".json")) {
-						SettingVM.setJsonSetting(result, this.createSetting);
+						setting = SettingVM.setJsonSetting(result);
 					}
 					else {
-						SettingVM.setPlainSetting(result, this.createSetting);
+						setting = SettingVM.setPlainSetting(result, this.createSetting);
 					}
+
+					this.createSetting.simple = setting.simple;
+					this.createSetting.simplecv = setting.simplecv;
+					this.createSetting.chaincv = setting.chaincv;
+					this.createSetting.mode = setting.mode;
 				}
 			},
 			exportSetting: function _exportSetting(ev): void {
@@ -48,7 +65,10 @@ class SettingVM {
 		};
 	}
 
-	initComputed() {
+	/**
+	 * VMで使用するComputedを定義するメソッド
+	 */
+	private initComputed(): void {
 		this.computed = {
 			isSimple: function _isSimple(): boolean {
 				return this.createSetting.mode === WordGenerator.SIMPLE_SYMBOL;
@@ -67,25 +87,139 @@ class SettingVM {
 	/**
 	 * JSON形式設定ファイルの設定を適用するための関数
 	 * @param result 読み込んだファイルの内容
+	 * @return 読み込んだファイルの内容を適用した設定
 	 */
-	private static setJsonSetting(result: string, createSetting: GeneratorSettings): void {
+	private static setJsonSetting(result: string): GeneratorSettings {
 		let setting = JSON.parse(result);
 
 		if(setting === null || setting === undefined) {
 			return null;
 		}
 
-		createSetting.simple = setting.simple;
-		createSetting.simplecv = setting.simplecv;
-		createSetting.chaincv = setting.chaincv;
-		createSetting.mode = setting.mode || createSetting.mode;
+		return <GeneratorSettings> {
+			simple: setting.simple,
+			simplecv: setting.simplecv,
+			chaincv: setting.chaincv,
+			mode: setting.mode,
+		};
 	}
 
 	/**
 	 * テキスト形式設定ファイルの設定を適用するための関数
 	 * @param result 読み込んだファイルの内容
+	 * @param createSetting 現在の設定
+	 * @return 読み込んだファイルの内容を適用した設定
 	 */
-	private static setPlainSetting(result: string, createSetting: GeneratorSettings): void {
+	private static setPlainSetting(result: string, createSetting: GeneratorSettings): GeneratorSettings {
+		let lines = result.replace('\r\n', '\n').replace('\r', '\n')
+			.split('\n').filter(function(el) {
+				return el !== "" && !el.startsWith("#");
+			});
+
+		switch(createSetting.mode) {
+			case WordGenerator.SIMPLE_SYMBOL:
+				createSetting.simple.letters = SettingVM.getPlainSimpleWGSetting(lines);
+				break;
+			case WordGenerator.SIMPLECV_SYMBOL:
+				createSetting.simplecv = SettingVM.getPlainSimpleCvWGSetting(lines);
+				break;
+			case WordGenerator.CHAINCV_SYMBOL:
+				createSetting.chaincv = SettingVM.getPlainChainCvWGSetting(lines);
+				break;
+			default:
+				break;
+		}
+
+		return createSetting;
+	}
+
+	/**
+	 * テキスト形式SimpleWordGenerator設定ファイルの設定を適用するための関数
+	 * @param lines 読み込んだファイルの内容
+	 * @param createSetting 現在の設定
+	 * @return 使用する文字の一覧
+	 */
+	private static getPlainSimpleWGSetting(lines: string[]): string {
+		let letters = [];
+		for(let i = 0; i < lines.length; i++) {
+			letters = letters.concat(lines[i].split(","));
+		}
+
+		return letters.join(",");
+	}
+
+	/**
+	 * テキスト形式SimpleCVWordGenerator設定ファイルの設定を適用するための関数
+	 * @param lines 読み込んだファイルの内容
+	 * @return 読み込んだファイルの内容を適用した設定
+	 */
+	private static getPlainSimpleCvWGSetting(lines: string[]): SimpleCvWGSetting {
+		let consonants = "";
+		let vowels = "";
+		let patterns = "";
+
+		for(let i = 0; i < lines.length; i++) {
+			let split = lines[i].split(/\s*=\s*/);
+			switch(split[0].trim()) {
+				case "consonants":
+					consonants = split[1];
+					break;
+				case "vowels":
+					vowels = split[1];
+					break;
+				case "patterns":
+					patterns = split[1];
+					break;
+			}
+		}
+
+		return <SimpleCvWGSetting> {
+			consonants: consonants,
+			vowels: vowels,
+			patterns: patterns,
+		};
+	}
+
+	/**
+	 * テキスト形式ChainCVWordGenerator設定ファイルの設定を適用するための関数
+	 * @param lines 読み込んだファイルの内容
+	 * @return 読み込んだファイルの内容を適用した設定
+	 */
+	private static getPlainChainCvWGSetting(lines: string[]): ChainCvWGSetting {
+		let consonants = "";
+		let vowels = "";
+		let patterns = "";
+		let transitions = [];
+
+		for(let i = 0; i < lines.length; i++) {
+			let split = lines[i].split(/\s*=\s*/);
+			switch(split[0].trim()) {
+				case "consonants":
+					consonants = split[1];
+					break;
+				case "vowels":
+					vowels = split[1];
+					break;
+				case "patterns":
+					patterns = split[1];
+					break;
+				default:
+					if(consonants.indexOf(split[0]) !== 0 || vowels.indexOf(split[0]) !== 0) {
+						transitions.push(<ChainCvTransition> {
+							letter: split[0],
+							nextLetters: split[1]
+						});
+					}
+					break;
+			}
+		}
+
+		return <ChainCvWGSetting> {
+			consonants: consonants,
+			vowels: vowels,
+			patterns: patterns,
+			transitions: transitions,
+		};
 	}
 }
 

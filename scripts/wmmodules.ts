@@ -1,5 +1,8 @@
 ///<reference path="./wgenerator.ts" />
 
+/**
+ * 単語文字列作成の設定を表すインターフェース
+ */
 interface GeneratorSettings {
 	mode: string;
 	simple: SimpleWGSetting;
@@ -33,6 +36,11 @@ class WMModules {
 		};
 	}
 
+	/**
+	 * 指定されたデータをJSON化し，指定されたファイル名でダウンロードさせます
+	 * @param data JSON化した後にダウンロードさせるファイル
+	 * @param fileName ファイル名
+	 */
 	static exportJSON(data: any, fileName: string):void {
 		let blob = new Blob([ JSON.stringify(data, undefined, 2) ], { type: "application/json" });
 

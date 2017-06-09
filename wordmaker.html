@@ -12,6 +12,7 @@
 	<script src="./scripts/wmmodules.js"></script>
 	<script src="./scripts/worddisplayvm.js"></script>
 	<script src="./scripts/settingvm.js"></script>
+	<script src="./scripts/equivalentchoicevm.js"></script>
 	<script src="./scripts/wordmaker.js"></script>
 </head>
 <body>
@@ -123,12 +124,12 @@
 		<div class="ntdialog-body">
 			<div id="equivalentChoice">
 				<div>
-					<button @click="setTranslation">追加</button>
+					<button @click="addTranslation">追加</button>
 					<button @click="cancel">キャンセル</button>
 				</div>
 				<div>
-					<select v-model='equivalent.value'>
-						<option v-for='word in equivalent.words' v-bind:value='word'>
+					<select v-model='selectedValue'>
+						<option v-for='word in translations' v-bind:value='word'>
 							{{ word }}
 						</option>
 					</select>

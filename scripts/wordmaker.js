@@ -1,6 +1,5 @@
 var wordDisplay;
 var settings;
-var equivalentDialog;
 var equivalentChoice;
 
 (function () {
@@ -16,7 +15,7 @@ var equivalentChoice;
 	// 初期化用関数
 	function init() {
 		// 訳語選択ダイアログの初期化
-		equivalentDialog = new NtDialog("訳語選択", {
+		let equivalentDialog = new NtDialog("訳語選択", {
 			top: 100, left:500,
 			width: 300, height: 200,
 			style: 'flat',
@@ -25,9 +24,12 @@ var equivalentChoice;
 		});
 
 		equivalentDialog.onhide = function() {
-			equivalent.index = -1;
-			equivalent.value = "";
 		}
+
+		let equivalent = {
+			dialog: equivalentDialog,
+			selectedEntry: -1,
+		};
 
 		// 生成文字列一覧のVMの初期化
 		wordDisplay = new Vue(new WordDisplayVM("#wordDisplay", dictionary, createSetting));
@@ -36,7 +38,7 @@ var equivalentChoice;
 		settings = new Vue(new SettingVM("#settings", createSetting));
 
 		// 訳語選択部分のVMの初期化
-		equivalentChoice = new Vue({});
+		equivalentChoice = new Vue(new EquivalentChoiceVM("#equivalentChoice", dictionary));
 	}
 })();
 
