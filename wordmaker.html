@@ -30,7 +30,7 @@
 					<div class="entry">
 						<label for="">単語</label>
 						<input type="text" v-model="word.entry.form" class="form" />
-						<button @click="setEquivalent(word)" v-bind:disabled="isDisabled">訳語追加</button>
+						<button @click="showEquivalentDialog(word)" v-bind:disabled="isDisabled">訳語追加</button>
 						<button @click="remove(word)" v-bind:disabled="isDisabled">削除</button>
 					</div>
 					<div v-for='translation in word.translations' class="translations">

@@ -22,24 +22,35 @@ class EquivalentChoiceVM {
 			dialog: dialog,
 		};
 
+		this.data.dialog.onhide = () => {
+			this.data.selectedValue = "";
+		}
+
 		this.initMethods();
 	}
 
+	/**
+	 * VMで使用するメソッドを定義するメソッド
+	 */
 	private initMethods(): void {
 		this.methods = {
-			addTranslation: function _addTranslation() {
+			/**
+			 * ダイアログで決定ボタンを押した場合の処理を行うメソッド
+			 */
+			addTranslation: function _addTranslation(): void {
 				if(this.selectedValue !== "") {
 					let id = Number((<HTMLInputElement>document.getElementById("selectedWordId")).value);
-					let word = this.dictionary.search(id);
+					let word = this.dictionary.getWord(id);
 
 					word.insert(0, this.selectedValue);
 				}
-				this.selectedValue = "";
 				this.dialog.hide();
 			},
 
-			cancel: function _cancel() {
-				this.selectedValue = "";
+			/**
+			 * ダイアログでキャンセルボタンを押した場合の処理を行うメソッド
+			 */
+			cancel: function _cancel(): void {
 				this.dialog.hide();
 			},
 		};

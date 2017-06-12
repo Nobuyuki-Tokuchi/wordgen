@@ -2,6 +2,9 @@
 ///<reference path="./wmmodules.ts" />
 ///<reference path="./wgenerator.ts" />
 
+/**
+ * 作成方法設定部で使用するViewModel
+ */
 class SettingVM {
 	el: string;
 	data: SettingData;
@@ -30,6 +33,10 @@ class SettingVM {
 	 */
 	private initMethods():void {
 		this.methods = {
+			/**
+			 * 設定をインポートするためのメソッド
+			 * @param ファイル読み込みイベント
+			 */
 			importSetting: function _importSetting(ev): void {
 				let file = ev.target.files[0];
 				let reader = new FileReader();
@@ -52,6 +59,10 @@ class SettingVM {
 				}
 			},
 
+			/**
+			 * 設定をインポートするためのメソッド
+			 * @param クリックイベント
+			 */
 			exportSetting: function _exportSetting(ev): void {
 				WMModules.exportJSON(this.createSetting, "setting.json");
 			},

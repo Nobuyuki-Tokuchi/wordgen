@@ -3,6 +3,9 @@
 ///<reference path="./wgenerator.ts" />
 ///<reference path="./ntdialog.ts" />
 
+/**
+ * 単語作成部で使用するViewModel
+ */
 class WordDisplayVM {
 	el: string;
 	data: WordDisplayData;
@@ -33,7 +36,10 @@ class WordDisplayVM {
 	 */
 	initMethods(): void {
 		this.methods = {
-			create: function _create() {
+			/**
+			 * 単語文字列を作成するメソッド
+			 */
+			create: function _create(): void {
 				let form = "";
 				switch(this.createSetting.mode) {
 					case WordGenerator.SIMPLE_SYMBOL:
@@ -54,14 +60,20 @@ class WordDisplayVM {
 				this.dictionary.add(word);
 			},
 
-			removeAll: function _removeAll() {
+			/**
+			 * 作成した全ての単語を削除するメソッド
+			 */
+			removeAll: function _removeAll(): void {
 				this.dictionary.removeAll();
 
 				// idを初期値にする
 				this.id = 1;
 			},
 
-			outputOtmJSON: function _outputOtmJSON() {
+			/**
+			 * 作成した単語一覧をOTM-JSON形式で出力するメソッド
+			 */
+			outputOtmJSON: function _outputOtmJSON(): void {
 				// idを振り直す
 				let id = 1;
 				this.dictionary.words.forEach((x) => {
@@ -75,16 +87,30 @@ class WordDisplayVM {
 			},
 
 			// 個々で使用する部分
-			setEquivalent: function _setEquivalents(word: OtmWord) {
+
+			/**
+			 * 訳語選択ダイアログを呼び出すメソッド
+			 * @param 訳語を設定する単語クラス
+			 */
+			showEquivalentDialog: function _showEquivalentDialog(word: OtmWord): void {
 				(<HTMLInputElement>document.getElementById("selectedWordId")).value = word.entry.id.toString();
 				this.dialog.show();
 			},
 
-			remove: function _remove(word: OtmWord) {
+			/**
+			 * 単語を削除するメソッド
+			 * @param 削除する単語クラス
+			 */
+			remove: function _remove(word: OtmWord): void {
 				this.dictionary.remove(word.entry.id);
 			},
 
-			splitter: function _splitter(value: string) {
+			/**
+			 * 単語の区切りの","で文字列を区切って配列にするためのメソッド
+			 * @param 単語の訳語(カンマ区切り)
+			 * @return カンマを区切り文字として分割した結果の文字列配列
+			 */
+			splitter: function _splitter(value: string): string[] {
 				return value.split(",").map(function(x) { return x.trim(); });
 			},
 		};

@@ -39,18 +39,14 @@ class OtmDictionary {
         }
         this.words.splice(index, 1);
     }
-    search(param) {
-        let index;
-        if (param instanceof OtmWord) {
-            index = this.words.findIndex((element) => {
-                return element.entry.id === param.entry.id;
-            });
-        }
-        else {
-            index = this.words.findIndex((element) => {
-                return element.entry.id === param;
-            });
-        }
+    /**
+     * この辞書に渡されたIDを持つ単語情報を取得する．
+     * @param param 単語情報のIDを表す数値
+     */
+    getWord(param) {
+        let index = this.words.findIndex((element) => {
+            return element.entry.id === param;
+        });
         return this.words[index];
     }
     /**
@@ -89,9 +85,14 @@ class OtmWord {
             this.translations.push(translations);
         }
         else {
-            this.translations.push(new OtmWordTranslation("", [translations]));
+            this.translations.push(new OtmWordTranslation("", translations.split(",").map(function (x) { return x.trim(); })));
         }
     }
+    /**
+     * この単語情報に渡された訳語を指定された訳語情報の欄に挿入する
+     * @param index 挿入する訳語情報の位置
+     * @param translations 訳語
+     */
     insert(index, translations) {
         if (index >= this.translations.length) {
             this.translations.push(new OtmWordTranslation("", translations.split(",").map(function (x) { return x.trim(); })));

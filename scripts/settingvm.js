@@ -1,6 +1,9 @@
 ///<reference path="./otmword.ts" />
 ///<reference path="./wmmodules.ts" />
 ///<reference path="./wgenerator.ts" />
+/**
+ * 作成方法設定部で使用するViewModel
+ */
 class SettingVM {
     /**
      * コンストラクタ
@@ -21,6 +24,10 @@ class SettingVM {
      */
     initMethods() {
         this.methods = {
+            /**
+             * 設定をインポートするためのメソッド
+             * @param ファイル読み込みイベント
+             */
             importSetting: function _importSetting(ev) {
                 let file = ev.target.files[0];
                 let reader = new FileReader();
@@ -40,6 +47,10 @@ class SettingVM {
                     this.createSetting.mode = setting.mode;
                 };
             },
+            /**
+             * 設定をインポートするためのメソッド
+             * @param クリックイベント
+             */
             exportSetting: function _exportSetting(ev) {
                 WMModules.exportJSON(this.createSetting, "setting.json");
             },

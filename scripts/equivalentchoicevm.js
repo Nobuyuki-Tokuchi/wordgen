@@ -16,21 +16,31 @@ class EquivalentChoiceVM {
             dictionary: dict,
             dialog: dialog,
         };
+        this.data.dialog.onhide = () => {
+            this.data.selectedValue = "";
+        };
         this.initMethods();
     }
+    /**
+     * VMで使用するメソッドを定義するメソッド
+     */
     initMethods() {
         this.methods = {
+            /**
+             * ダイアログで決定ボタンを押した場合の処理を行うメソッド
+             */
             addTranslation: function _addTranslation() {
                 if (this.selectedValue !== "") {
                     let id = Number(document.getElementById("selectedWordId").value);
-                    let word = this.dictionary.search(id);
+                    let word = this.dictionary.getWord(id);
                     word.insert(0, this.selectedValue);
                 }
-                this.selectedValue = "";
                 this.dialog.hide();
             },
+            /**
+             * ダイアログでキャンセルボタンを押した場合の処理を行うメソッド
+             */
             cancel: function _cancel() {
-                this.selectedValue = "";
                 this.dialog.hide();
             },
         };
