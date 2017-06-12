@@ -11,6 +11,35 @@ interface GeneratorSettings {
 }
 
 /**
+ * WordDisplayの持つdataのインターフェイス
+ */
+interface WordDisplayData {
+	dictionary: OtmDictionary;
+	createSetting: GeneratorSettings;
+	isDisabled: boolean;
+	id: number;
+	dialog: NtDialog;
+}
+
+/**
+ * SettingVMの持つdataのインターフェース
+ */
+interface SettingData {
+	generatorType: [{ text: string, value: string }];
+	createSetting: GeneratorSettings;
+}
+
+/**
+ * EquivalentChoiceVMの持つdataのインターフェイス
+ */
+interface EquivalentChoiceData {
+	translations: string[];
+	selectedValue: string;
+	dictionary: OtmDictionary;
+	dialog: NtDialog;
+}
+
+/**
  * WordMaker for Web内で共有されるものをまとめたクラス
  */
 class WMModules {

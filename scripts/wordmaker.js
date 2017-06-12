@@ -32,13 +32,13 @@ var equivalentChoice;
 		};
 
 		// 生成文字列一覧のVMの初期化
-		wordDisplay = new Vue(new WordDisplayVM("#wordDisplay", dictionary, createSetting));
+		wordDisplay = new Vue(new WordDisplayVM("#wordDisplay", dictionary, createSetting, equivalentDialog));
 
 		// 設定部分のVMの初期化
 		settings = new Vue(new SettingVM("#settings", createSetting));
 
 		// 訳語選択部分のVMの初期化
-		equivalentChoice = new Vue(new EquivalentChoiceVM("#equivalentChoice", dictionary));
+		equivalentChoice = new Vue(new EquivalentChoiceVM("#equivalentChoice", dictionary, equivalentDialog));
 	}
 })();
 

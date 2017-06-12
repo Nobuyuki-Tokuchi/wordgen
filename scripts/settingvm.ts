@@ -2,14 +2,6 @@
 ///<reference path="./wmmodules.ts" />
 ///<reference path="./wgenerator.ts" />
 
-/**
- * SettingVMの持つdataのインターフェース
- */
-class SettingData {
-	generatorType: [{ text: string, value: string }];
-	createSetting: GeneratorSettings;
-}
-
 class SettingVM {
 	el: string;
 	data: SettingData;
@@ -59,6 +51,7 @@ class SettingVM {
 					this.createSetting.mode = setting.mode;
 				}
 			},
+
 			exportSetting: function _exportSetting(ev): void {
 				WMModules.exportJSON(this.createSetting, "setting.json");
 			},

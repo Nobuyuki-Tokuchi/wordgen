@@ -54,6 +54,22 @@ class OtmDictionary {
 		this.words.splice(index, 1);
 	}
 
+	search(param: OtmWord | number): OtmWord {
+		let index;
+		if(param instanceof OtmWord) {
+			index = this.words.findIndex((element) => {
+				return element.entry.id === param.entry.id;
+			});
+		}
+		else {
+			index = this.words.findIndex((element) => {
+				return element.entry.id === param;
+			});
+		}
+
+		return this.words[index];
+	}
+
 	/**
 	 * この辞書に登録されている単語情報を全て削除する．
 	 */
@@ -114,11 +130,35 @@ class OtmWord {
 	 * @param translations 訳語情報または訳語
 	 */
 	add(translations: OtmWordTranslation | string): void {
+		if(this.translations.length > 0 && this.translations.every((x) => x.forms.length > 0 && x.forms.every((y) => y == null || y === "" ) )) {
+			this.translations.splice(0, this.translations.length);
+		}
+
 		if(translations instanceof OtmWordTranslation) {
 			this.translations.push(translations);
 		}
 		else {
 			this.translations.push(new OtmWordTranslation("", [ translations ]));
+		}
+	}
+
+	insert(index: number, translations: string): void {
+		if(index >= this.translations.length) {
+			this.translations.push(new OtmWordTranslation("", translations.split(",").map(function(x) { return x.trim(); })));
+		}
+		else if(index < 0){
+			this.translations.unshift(new OtmWordTranslation("", translations.split(",").map(function(x) { return x.trim(); })));
+		}
+		else {
+			if(this.translations[index].forms.length === 0 ||
+				(this.translations[index].forms.length > 0 && 
+					(this.translations[index].forms[0] == null || this.translations[index].forms[0] === "" ))) {
+				this.translations[index].forms.splice(0, 1);
+			}
+
+			translations.split(",").map(function(x) { return x.trim(); }).forEach((x) => {
+				this.translations[index].forms.push(x);
+			});
 		}
 	}
 

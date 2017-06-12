@@ -1,11 +1,7 @@
 ///<reference path="./otmword.ts" />
 ///<reference path="./wmmodules.ts" />
 ///<reference path="./wgenerator.ts" />
-/**
- * WordDisplayの持つdataのインターフェイス
- */
-class WordDisplayData {
-}
+///<reference path="./ntdialog.ts" />
 class WordDisplayVM {
     /**
      * コンストラクタ
@@ -13,13 +9,14 @@ class WordDisplayVM {
      * @param dict OTM形式辞書クラス
      * @param createSetting 単語文字列作成に使用する設定
      */
-    constructor(el, dict, createSetting) {
+    constructor(el, dict, createSetting, dialog) {
         this.el = el;
         this.data = {
             dictionary: dict,
             isDisabled: false,
             createSetting: createSetting,
             id: 1,
+            dialog: dialog,
         };
         this.initMethods();
     }
@@ -55,13 +52,17 @@ class WordDisplayVM {
             outputOtmJSON: function _outputOtmJSON() {
                 // idを振り直す
                 let id = 1;
-                this.dictionary.words.forEach((x) => { x.entry.id = id++; });
+                this.dictionary.words.forEach((x) => {
+                    x.entry.id = id++;
+                });
                 WMModules.exportJSON(this.dictionary, "dict.json");
                 // 引き続き作成する場合を考えてidを更新する
                 this.id = id;
             },
             // 個々で使用する部分
             setEquivalent: function _setEquivalents(word) {
+                document.getElementById("selectedWordId").value = word.entry.id.toString();
+                this.dialog.show();
             },
             remove: function _remove(word) {
                 this.dictionary.remove(word.entry.id);

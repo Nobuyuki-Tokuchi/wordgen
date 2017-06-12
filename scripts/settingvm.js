@@ -1,11 +1,6 @@
 ///<reference path="./otmword.ts" />
 ///<reference path="./wmmodules.ts" />
 ///<reference path="./wgenerator.ts" />
-/**
- * SettingVMの持つdataのインターフェース
- */
-class SettingData {
-}
 class SettingVM {
     /**
      * コンストラクタ
