@@ -52,7 +52,7 @@ class WordGenerator {
      * @param setting 文字列を生成する時に使用する設定
      * @return 生成した文字列
      */
-    static chaincv(setting) {
+    static dependencycv(setting) {
         let consonants = setting.consonants.split(",");
         let vowels = setting.vowels.split(",");
         let letters = consonants.concat(vowels);
@@ -127,5 +127,5 @@ WordGenerator.SIMPLECV_SYMBOL = "simplecv";
 /**
  * 母子音文字別定義文字列生成を表示シンボル
  */
-WordGenerator.CHAINCV_SYMBOL = "chaincv";
+WordGenerator.DEPENDENCYCV_SYMBOL = "dependencycv";
 //# sourceMappingURL=wgenerator.js.map

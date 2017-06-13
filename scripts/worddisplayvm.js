@@ -40,8 +40,8 @@ class WordDisplayVM {
                     case WordGenerator.SIMPLECV_SYMBOL:
                         form = WordGenerator.simplecv(this.createSetting.simplecv);
                         break;
-                    case WordGenerator.CHAINCV_SYMBOL:
-                        form = WordGenerator.chaincv(this.createSetting.chaincv);
+                    case WordGenerator.DEPENDENCYCV_SYMBOL:
+                        form = WordGenerator.dependencycv(this.createSetting.dependencycv);
                         break;
                     default:
                         break;

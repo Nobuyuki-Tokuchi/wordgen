@@ -54,7 +54,7 @@ class SettingVM {
 
 					this.createSetting.simple = setting.simple;
 					this.createSetting.simplecv = setting.simplecv;
-					this.createSetting.chaincv = setting.chaincv;
+					this.createSetting.dependencycv = setting.dependencycv;
 					this.createSetting.mode = setting.mode;
 				}
 			},
@@ -82,8 +82,8 @@ class SettingVM {
 				return this.createSetting.mode === WordGenerator.SIMPLECV_SYMBOL;
 			},
 
-			isChainCv: function _isChainCv(): boolean {
-				return this.createSetting.mode === WordGenerator.CHAINCV_SYMBOL;
+			isDependencyCv: function _isDependencyCv(): boolean {
+				return this.createSetting.mode === WordGenerator.DEPENDENCYCV_SYMBOL;
 			},
 		}
 	}
@@ -103,7 +103,7 @@ class SettingVM {
 		return <GeneratorSettings> {
 			simple: setting.simple,
 			simplecv: setting.simplecv,
-			chaincv: setting.chaincv,
+			dependencycv: setting.dependencycv,
 			mode: setting.mode,
 		};
 	}
@@ -127,8 +127,8 @@ class SettingVM {
 			case WordGenerator.SIMPLECV_SYMBOL:
 				createSetting.simplecv = SettingVM.getPlainSimpleCvWGSetting(lines);
 				break;
-			case WordGenerator.CHAINCV_SYMBOL:
-				createSetting.chaincv = SettingVM.getPlainChainCvWGSetting(lines);
+			case WordGenerator.DEPENDENCYCV_SYMBOL:
+				createSetting.dependencycv = SettingVM.getPlainDependencyCvWGSetting(lines);
 				break;
 			default:
 				break;
@@ -185,11 +185,11 @@ class SettingVM {
 	}
 
 	/**
-	 * テキスト形式ChainCVWordGenerator設定ファイルの設定を適用するための関数
+	 * テキスト形式のDependencyCvWordGenerator設定ファイルの設定を適用するための関数
 	 * @param lines 読み込んだファイルの内容
 	 * @return 読み込んだファイルの内容を適用した設定
 	 */
-	private static getPlainChainCvWGSetting(lines: string[]): ChainCvWGSetting {
+	private static getPlainDependencyCvWGSetting(lines: string[]): DependencyCvWGSetting {
 		let consonants = "";
 		let vowels = "";
 		let patterns = "";
@@ -209,7 +209,7 @@ class SettingVM {
 					break;
 				default:
 					if(consonants.indexOf(split[0]) !== 0 || vowels.indexOf(split[0]) !== 0) {
-						transitions.push(<ChainCvTransition> {
+						transitions.push(<DependencyCvTransition> {
 							letter: split[0],
 							nextLetters: split[1]
 						});
@@ -218,7 +218,7 @@ class SettingVM {
 			}
 		}
 
-		return <ChainCvWGSetting> {
+		return <DependencyCvWGSetting> {
 			consonants: consonants,
 			vowels: vowels,
 			patterns: patterns,

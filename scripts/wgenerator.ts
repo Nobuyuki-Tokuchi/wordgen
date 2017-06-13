@@ -18,14 +18,14 @@ interface SimpleCvWGSetting {
 /**
  * 母子音字別定義依存遷移型文字列生成用の引数を表すインターフェイス
  */
-interface ChainCvWGSetting extends SimpleCvWGSetting {
-	transitions: ChainCvTransition[];
+interface DependencyCvWGSetting extends SimpleCvWGSetting {
+	transitions: DependencyCvTransition[];
 }
 
 /**
  * 母子音字別定義依存遷移型の遷移先パラメータ
  */
-interface ChainCvTransition {
+interface DependencyCvTransition {
 	letter: string;
 	nextLetters: string;
 }
@@ -47,7 +47,7 @@ class WordGenerator {
 	/**
 	 * 母子音文字別定義文字列生成を表示シンボル
 	 */
-	public static CHAINCV_SYMBOL = "chaincv";
+	public static DEPENDENCYCV_SYMBOL = "dependencycv";
 
 	/**
 	 * 単純文字列生成を行うメソッド
@@ -105,7 +105,7 @@ class WordGenerator {
 	 * @param setting 文字列を生成する時に使用する設定
 	 * @return 生成した文字列
 	 */
-	public static chaincv(setting: ChainCvWGSetting): string {
+	public static dependencycv(setting: DependencyCvWGSetting): string {
 		let consonants = setting.consonants.split(",");
 		let vowels = setting.vowels.split(",");
 		let letters = consonants.concat(vowels);

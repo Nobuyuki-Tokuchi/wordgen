@@ -12,7 +12,7 @@ class WMModules {
             mode: WordGenerator.SIMPLE_SYMBOL,
             simple: Object.create(WMModules.DEFAULT_SET.SIMPLE),
             simplecv: Object.create(WMModules.DEFAULT_SET.SIMPLECV),
-            chaincv: Object.create(WMModules.DEFAULT_SET.CHAINCV),
+            dependencycv: Object.create(WMModules.DEFAULT_SET.DEPENDENCYCV),
         };
     }
     /**
@@ -41,7 +41,7 @@ class WMModules {
 WMModules.GENERATOR_TYPE = [
     { text: '単純文字列生成', value: WordGenerator.SIMPLE_SYMBOL },
     { text: '母子音字別文字列生成', value: WordGenerator.SIMPLECV_SYMBOL },
-    { text: '母子音字別依存遷移型文字列生成', value: WordGenerator.CHAINCV_SYMBOL },
+    { text: '母子音字別依存遷移型文字列生成', value: WordGenerator.DEPENDENCYCV_SYMBOL },
 ];
 /**
  * デフォルトの文字列生成用設定
@@ -56,7 +56,7 @@ WMModules.DEFAULT_SET = {
         vowels: "a,e,i,o,u",
         patterns: "CV*CV,CVC",
     },
-    CHAINCV: {
+    DEPENDENCYCV: {
         consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z",
         vowels: "a,e,i,o,u",
         patterns: "CV*CV,CVC",

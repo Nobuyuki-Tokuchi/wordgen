@@ -43,7 +43,7 @@ class SettingVM {
                     }
                     this.createSetting.simple = setting.simple;
                     this.createSetting.simplecv = setting.simplecv;
-                    this.createSetting.chaincv = setting.chaincv;
+                    this.createSetting.dependencycv = setting.dependencycv;
                     this.createSetting.mode = setting.mode;
                 };
             },
@@ -67,8 +67,8 @@ class SettingVM {
             isSimpleCv: function _isSimpleCv() {
                 return this.createSetting.mode === WordGenerator.SIMPLECV_SYMBOL;
             },
-            isChainCv: function _isChainCv() {
-                return this.createSetting.mode === WordGenerator.CHAINCV_SYMBOL;
+            isDependencyCv: function _isDependencyCv() {
+                return this.createSetting.mode === WordGenerator.DEPENDENCYCV_SYMBOL;
             },
         };
     }
@@ -85,7 +85,7 @@ class SettingVM {
         return {
             simple: setting.simple,
             simplecv: setting.simplecv,
-            chaincv: setting.chaincv,
+            dependencycv: setting.dependencycv,
             mode: setting.mode,
         };
     }
@@ -107,8 +107,8 @@ class SettingVM {
             case WordGenerator.SIMPLECV_SYMBOL:
                 createSetting.simplecv = SettingVM.getPlainSimpleCvWGSetting(lines);
                 break;
-            case WordGenerator.CHAINCV_SYMBOL:
-                createSetting.chaincv = SettingVM.getPlainChainCvWGSetting(lines);
+            case WordGenerator.DEPENDENCYCV_SYMBOL:
+                createSetting.dependencycv = SettingVM.getPlainDependencyCvWGSetting(lines);
                 break;
             default:
                 break;
@@ -158,11 +158,11 @@ class SettingVM {
         };
     }
     /**
-     * テキスト形式ChainCVWordGenerator設定ファイルの設定を適用するための関数
+     * テキスト形式のDependencyCvWordGenerator設定ファイルの設定を適用するための関数
      * @param lines 読み込んだファイルの内容
      * @return 読み込んだファイルの内容を適用した設定
      */
-    static getPlainChainCvWGSetting(lines) {
+    static getPlainDependencyCvWGSetting(lines) {
         let consonants = "";
         let vowels = "";
         let patterns = "";

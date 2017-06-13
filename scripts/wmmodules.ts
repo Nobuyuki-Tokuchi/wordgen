@@ -7,7 +7,7 @@ interface GeneratorSettings {
 	mode: string;
 	simple: SimpleWGSetting;
 	simplecv: SimpleCvWGSetting;
-	chaincv: ChainCvWGSetting;
+	dependencycv: DependencyCvWGSetting;
 }
 
 /**
@@ -49,7 +49,7 @@ class WMModules {
 	static GENERATOR_TYPE = [
 		{ text: '単純文字列生成', value: WordGenerator.SIMPLE_SYMBOL },
 		{ text: '母子音字別文字列生成', value: WordGenerator.SIMPLECV_SYMBOL },
-		{ text: '母子音字別依存遷移型文字列生成', value: WordGenerator.CHAINCV_SYMBOL },
+		{ text: '母子音字別依存遷移型文字列生成', value: WordGenerator.DEPENDENCYCV_SYMBOL },
 	];
 
 	/**
@@ -61,7 +61,7 @@ class WMModules {
 			mode: WordGenerator.SIMPLE_SYMBOL,
 			simple: Object.create(WMModules.DEFAULT_SET.SIMPLE) as SimpleWGSetting,
 			simplecv: Object.create(WMModules.DEFAULT_SET.SIMPLECV) as SimpleCvWGSetting,
-			chaincv: Object.create(WMModules.DEFAULT_SET.CHAINCV) as ChainCvWGSetting,
+			dependencycv: Object.create(WMModules.DEFAULT_SET.DEPENDENCYCV) as DependencyCvWGSetting,
 		};
 	}
 
@@ -100,7 +100,7 @@ class WMModules {
 			vowels: "a,e,i,o,u",
 			patterns: "CV*CV,CVC",
 		},
-		CHAINCV: {
+		DEPENDENCYCV: {
 			consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z",
 			vowels: "a,e,i,o,u",
 			patterns: "CV*CV,CVC",
