@@ -17,7 +17,7 @@ class WordDisplayVM {
 	 * @param dict OTM形式辞書クラス
 	 * @param createSetting 単語文字列作成に使用する設定
 	 */
-	constructor(el: string, dict: OtmDictionary, createSetting: GeneratorSettings, dialog: NtDialog) {
+	constructor(el: string, dict: OtmDictionary, createSetting: GeneratorSettings) {
 		this.el = el;
 
 		this.data = <WordDisplayData> {
@@ -25,7 +25,6 @@ class WordDisplayVM {
 			isDisabled: false,
 			createSetting: createSetting,
 			id: 1,
-			dialog: dialog,
 		};
 
 		this.initMethods();
@@ -94,7 +93,7 @@ class WordDisplayVM {
 			 */
 			showEquivalentDialog: function _showEquivalentDialog(word: OtmWord): void {
 				(<HTMLInputElement>document.getElementById("selectedWordId")).value = word.entry.id.toString();
-				this.dialog.show();
+				WMModules.equivalentDialog.show();
 			},
 
 			/**

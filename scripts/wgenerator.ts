@@ -4,6 +4,7 @@
 interface SimpleWGSetting {
 	letters: string;
 	patterns: string;
+	prohibitions: string;
 }
 
 /**
@@ -13,6 +14,7 @@ interface SimpleCvWGSetting {
 	consonants: string;
 	vowels: string;
 	patterns: string;
+	prohibitions: string;
 }
 
 /**
@@ -20,6 +22,7 @@ interface SimpleCvWGSetting {
  */
 interface DependencyCvWGSetting extends SimpleCvWGSetting {
 	transitions: DependencyCvTransition[];
+	prohibitions: string;
 }
 
 /**
@@ -45,7 +48,7 @@ class WordGenerator {
 	public static SIMPLECV_SYMBOL = "simplecv";
 
 	/**
-	 * 母子音文字別定義文字列生成を表示シンボル
+	 * 母子音文字別定義依存遷移型文字列生成を表示シンボル
 	 */
 	public static DEPENDENCYCV_SYMBOL = "dependencycv";
 
@@ -59,9 +62,19 @@ class WordGenerator {
 		let buffer = "";
 		let countList = setting.patterns.split(",");
 		let count = parseInt(countList[Math.floor(Math.random() * countList.length)]);
+		let prohibitions = WordGenerator.getProhibitions(setting.prohibitions);
 
 		for(let i = 0; i < count; i++) {
 			buffer += letters[Math.floor(Math.random() * letters.length)];
+
+			let isOk = prohibitions.length === 0 || prohibitions.every((x) => {
+				return !buffer.endsWith(x);
+			});
+
+			if(!isOk) {
+				buffer = buffer.substr(0, buffer.length - 1);
+				i--;
+			}
 		}
 
 		return buffer;
@@ -79,6 +92,7 @@ class WordGenerator {
 		let buffer = "";
 		let patternList = setting.patterns.split(",");
 		let pattern = patternList[Math.floor(Math.random() * patternList.length)];
+		let prohibitions = WordGenerator.getProhibitions(setting.prohibitions);
 
 		for(let i = 0; i < pattern.length; i++) {
 			switch(pattern[i].toUpperCase()) {
@@ -95,6 +109,15 @@ class WordGenerator {
 					buffer += "-";
 					break;
 			}
+
+			let isOk = prohibitions.length === 0 || prohibitions.every((x) => {
+				return !buffer.endsWith(x);
+			});
+
+			if(!isOk) {
+				buffer = buffer.substr(0, buffer.length - 1);
+				i--;
+			}
 		}
 
 		return buffer;
@@ -106,12 +129,13 @@ class WordGenerator {
 	 * @return 生成した文字列
 	 */
 	public static dependencycv(setting: DependencyCvWGSetting): string {
-		let consonants = setting.consonants.split(",");
-		let vowels = setting.vowels.split(",");
+		let consonants = setting.consonants.split(",").map((x) => x.trim());
+		let vowels = setting.vowels.split(",").map((x) => x.trim());
 		let letters = consonants.concat(vowels);
 		let buffer = "";
-		let patternList = setting.patterns.split(",");
+		let patternList = setting.patterns.split(",").map((x) => x.trim());
 		let pattern = patternList[Math.floor(Math.random() * patternList.length)];
+		let prohibitions = WordGenerator.getProhibitions(setting.prohibitions);
 
 		let oldLetter = ""
 		for(let i = 0; i < pattern.length; i++) {
@@ -170,9 +194,27 @@ class WordGenerator {
 
 			oldLetter = letterList[Math.floor(Math.random() * letterList.length)];
 			buffer += oldLetter;
+
+			let isOk = prohibitions.length === 0 || prohibitions.every((x) => {
+				return !buffer.endsWith(x);
+			});
+
+			if(!isOk) {
+				buffer = buffer.substr(0, buffer.length - 1);
+				i--;
+			}
 		}
 
 		return buffer;
+	}
+
+	private static getProhibitions(prohibitions: string): string[] {
+		if(prohibitions == null || prohibitions.trim().length === 0) {
+			return [];
+		}
+		else {
+			return prohibitions.split(",").map((x) => x.trim());
+		}
 	}
 }
 

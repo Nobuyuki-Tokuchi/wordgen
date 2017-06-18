@@ -8,16 +8,22 @@ class EquivalentChoiceVM {
      * @param el バインディングを適用するタグのid
      * @param dict OTM形式辞書クラス
      */
-    constructor(el, dict, dialog) {
+    constructor(el, dict) {
         this.el = el;
         this.data = {
-            translations: WMModules.EQUIVALENTS,
+            translations: WMModules.defaultEquivalents(),
             selectedValue: "",
             dictionary: dict,
-            dialog: dialog,
+            selectedWordId: "",
+            isSetEquivalentMode: false,
         };
-        this.data.dialog.onhide = () => {
+        WMModules.equivalentDialog.onshow = () => {
+            this.data.selectedWordId = document.getElementById("selectedWordId").value;
+            this.data.isSetEquivalentMode = (this.data.selectedWordId === "");
+        };
+        WMModules.equivalentDialog.onhide = () => {
             this.data.selectedValue = "";
+            this.data.selectedWordId = "";
         };
         this.initMethods();
     }
@@ -27,21 +33,41 @@ class EquivalentChoiceVM {
     initMethods() {
         this.methods = {
             /**
+             * ダイアログで訳語を追加するためのメソッド
+             */
+            setTranslations: function _setTranslations(ev) {
+                let files = ev.target.files;
+                for (let i = 0; i < files.length; i++) {
+                    let reader = new FileReader();
+                    reader.readAsText(files[i]);
+                    this.translations.splice(0);
+                    reader.onload = () => {
+                        let result = reader.result;
+                        let lines = result.replace('\r\n', '\n').replace('\r', '\n')
+                            .split('\n').filter(function (el) {
+                            return el !== "";
+                        });
+                        for (let i = 0; i < lines.length; i++) {
+                            this.translations.push(lines[i]);
+                        }
+                    };
+                }
+            },
+            /**
              * ダイアログで決定ボタンを押した場合の処理を行うメソッド
              */
             addTranslation: function _addTranslation() {
                 if (this.selectedValue !== "") {
-                    let id = Number(document.getElementById("selectedWordId").value);
+                    let id = Number(this.selectedWordId);
                     let word = this.dictionary.getWord(id);
                     word.insert(0, this.selectedValue);
                 }
-                this.dialog.hide();
             },
             /**
              * ダイアログでキャンセルボタンを押した場合の処理を行うメソッド
              */
             cancel: function _cancel() {
-                this.dialog.hide();
+                WMModules.equivalentDialog.hide();
             },
         };
     }

@@ -57,6 +57,9 @@
 			<span>設定ファイル出力：</span>
 			<button @click='exportSetting($event)'>出力</button>
 		</div>
+		<div>
+			<button @click="showEquivalentDialog($event)">訳語設定</button>
+		</div>
 		<hr />
 		<div>
 			<select v-model='createSetting.mode'>
@@ -74,6 +77,10 @@
 				<span>文字列長(カンマ区切りで複数記述可)</span>
 				<input type="text" v-model="createSetting.simple.patterns">
 			</div>
+			<div>
+				<span>禁則文字列(カンマ区切りで複数記述可)</span>
+				<input type="text" v-model="createSetting.simple.prohibitions">
+			</div>
 		</div>
 		<div class="createSettings" v-show="isSimpleCv">
 			<div>
@@ -88,6 +95,10 @@
 				<span>文字列構成(カンマ区切りで複数記述可)</span>
 				<input type="text" v-model="createSetting.simplecv.patterns">
 			</div>
+			<div>
+				<span>禁則文字列(カンマ区切りで複数記述可)</span>
+				<input type="text" v-model="createSetting.simplecv.prohibitions">
+			</div>
 		</div>
 		<div class="createSettings" v-show="isDependencyCv">
 			<div>
@@ -101,6 +112,10 @@
 			<div>
 				<span>文字列構成(カンマ区切りで複数記述可)</span>
 				<input type="text" v-model="createSetting.dependencycv.patterns">
+			</div>
+			<div>
+				<span>禁則文字列(カンマ区切りで複数記述可)</span>
+				<input type="text" v-model="createSetting.dependencycv.prohibitions">
 			</div>
 			<div>
 				<span>遷移可能文字設定</span>
@@ -122,19 +137,27 @@
 			<button class="ntdialog-close"></button>
 		</div>
 		<div class="ntdialog-body">
-			<input type="hidden" id="selectedWordId">
 			<div id="equivalentChoice">
-				<div>
-					<button @click="addTranslation">追加</button>
-					<button @click="cancel">キャンセル</button>
+				<input type="hidden" id="selectedWordId" value="">
+				<div v-show="isSetEquivalentMode">
+					<div>
+						<span>訳語ファイル入力(複数選択可)：</span>
+						<input type="file" @change="setTranslations($event)" multiple>
+					</div>
 				</div>
+				<div v-show="!isSetEquivalentMode">
+					<div>
+						<button @click="addTranslation">追加</button>
+						<button @click="cancel">キャンセル</button>
+					</div>
+					<div>
+						<select v-model='selectedValue'>
+							<option v-for='word in translations' v-bind:value='word'>
+								{{ word }}
+							</option>
+						</select>
+					</div>
 				<div>
-					<select v-model='selectedValue'>
-						<option v-for='word in translations' v-bind:value='word'>
-							{{ word }}
-						</option>
-					</select>
-				</div>
 			</div>
 		</div>
 	</div>

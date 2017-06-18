@@ -54,6 +54,14 @@ class SettingVM {
             exportSetting: function _exportSetting(ev) {
                 WMModules.exportJSON(this.createSetting, "setting.json");
             },
+            /**
+             * 訳語ダイアログを開くためのメソッド
+             * @param クリックイベント
+             */
+            showEquivalentDialog: function _showEquivalentDialog(ev) {
+                document.getElementById("selectedWordId").value = "";
+                WMModules.equivalentDialog.show();
+            }
         };
     }
     /**
@@ -137,6 +145,7 @@ class SettingVM {
         let consonants = "";
         let vowels = "";
         let patterns = "";
+        let prohibitions = "";
         for (let i = 0; i < lines.length; i++) {
             let split = lines[i].split(/\s*=\s*/);
             switch (split[0].trim()) {
@@ -149,12 +158,16 @@ class SettingVM {
                 case "patterns":
                     patterns = split[1];
                     break;
+                case "prohibitions":
+                    patterns = split[1];
+                    break;
             }
         }
         return {
             consonants: consonants,
             vowels: vowels,
             patterns: patterns,
+            prohibitions: prohibitions,
         };
     }
     /**
@@ -166,6 +179,7 @@ class SettingVM {
         let consonants = "";
         let vowels = "";
         let patterns = "";
+        let prohibitions = "";
         let transitions = [];
         for (let i = 0; i < lines.length; i++) {
             let split = lines[i].split(/\s*=\s*/);
@@ -179,6 +193,8 @@ class SettingVM {
                 case "patterns":
                     patterns = split[1];
                     break;
+                case "prohibitions":
+                    prohibitions = split[1];
                 default:
                     if (consonants.indexOf(split[0]) !== 0 || vowels.indexOf(split[0]) !== 0) {
                         transitions.push({
@@ -194,6 +210,7 @@ class SettingVM {
             vowels: vowels,
             patterns: patterns,
             transitions: transitions,
+            prohibitions: prohibitions,
         };
     }
 }

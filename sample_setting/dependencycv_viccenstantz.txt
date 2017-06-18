@@ -6,6 +6,12 @@ consonants = b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z
 # 母音設定
 vowels = a,e,i,o,u,y
 
+# 作成パターン設定
+patterns = CVCCV,CVC,CVVC
+
+# 禁則文字列
+prohibitions = hll,hdzm,hlg
+
 # 以下[文字] = [後ろに置ける文字]
 a = a,b,c,d,dz,f,g,h,i,j,k,l,m,n,p,r,s,t,u,v,w,x,z
 b = b,c,d,dz,e,g,i,l,o,r,s,u,x,y,z
@@ -33,6 +39,3 @@ w = a,c,e,i,o,r,x
 x = a,d,e,g,i,k,l,m,n,o,p,r,t,u,v,w,x,y,z
 y = b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z
 z = a,e,i,k,l,m,n,o,p,r,t,u,v,w,y,z
-
-# 作成パターン設定
-patterns = CVCCV,CVC,CVVC

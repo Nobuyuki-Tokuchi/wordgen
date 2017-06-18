@@ -8,3 +8,6 @@ vowels = a,e,i,o,u,y
 
 # 作成パターン設定
 patterns = CVCCV,CVC,CVVC
+
+# 禁則文字列
+prohibitions = hll,hdzm,hlg

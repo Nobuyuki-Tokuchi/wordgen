@@ -1,3 +1,5 @@
+///<reference path="./ntdialog.ts" />
+///<reference path="./otmword.ts" />
 ///<reference path="./wgenerator.ts" />
 /**
  * WordMaker for Web内で共有されるものをまとめたクラス
@@ -14,6 +16,13 @@ class WMModules {
             simplecv: Object.create(WMModules.DEFAULT_SET.SIMPLECV),
             dependencycv: Object.create(WMModules.DEFAULT_SET.DEPENDENCYCV),
         };
+    }
+    /**
+     * 訳語一覧のデフォルト値を返す
+     * @return 訳語一覧のデフォルト値
+     */
+    static defaultEquivalents() {
+        return Array.from(WMModules.EQUIVALENTS);
     }
     /**
      * 指定されたデータをJSON化し，指定されたファイル名でダウンロードさせます
@@ -40,8 +49,8 @@ class WMModules {
  */
 WMModules.GENERATOR_TYPE = [
     { text: '単純文字列生成', value: WordGenerator.SIMPLE_SYMBOL },
-    { text: '母子音字別文字列生成', value: WordGenerator.SIMPLECV_SYMBOL },
-    { text: '母子音字別依存遷移型文字列生成', value: WordGenerator.DEPENDENCYCV_SYMBOL },
+    { text: '母子音字別定義文字列生成', value: WordGenerator.SIMPLECV_SYMBOL },
+    { text: '母子音字別定義依存遷移型文字列生成', value: WordGenerator.DEPENDENCYCV_SYMBOL },
 ];
 /**
  * デフォルトの文字列生成用設定
@@ -50,42 +59,45 @@ WMModules.DEFAULT_SET = {
     SIMPLE: {
         letters: "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,y,z",
         patterns: "4,5",
+        prohibitions: "bf,bp,bv,pf,pb,pv,rw",
     },
     SIMPLECV: {
         consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z",
         vowels: "a,e,i,o,u",
         patterns: "CV*CV,CVC",
+        prohibitions: "bf,bp,bv,pf,pb,pv,rw",
     },
     DEPENDENCYCV: {
         consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z",
         vowels: "a,e,i,o,u",
         patterns: "CV*CV,CVC",
+        prohibitions: "bbb,ddd,ggg,kkk,lll,mmm,nnn,ppp,rrr,ttt",
         transitions: [
-            { letter: "a", nextLetters: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z" },
-            { letter: "b", nextLetters: "a,e,i,o,u" },
-            { letter: "c", nextLetters: "a,e,i,o,u" },
-            { letter: "d", nextLetters: "a,e,i,o,u" },
-            { letter: "e", nextLetters: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z" },
-            { letter: "f", nextLetters: "a,e,i,o,u" },
-            { letter: "g", nextLetters: "a,e,i,o,u" },
+            { letter: "a", nextLetters: "b,c,d,f,g,h,i,j,k,l,m,n,p,r,s,t,u,v,w,x,y,z" },
+            { letter: "b", nextLetters: "a,b,e,i,l,o,r,u" },
+            { letter: "c", nextLetters: "a,e,i,l,o,p,r,u" },
+            { letter: "d", nextLetters: "a,d,e,i,j,o,r,u,v,z" },
+            { letter: "e", nextLetters: "b,c,d,f,g,h,i,j,k,l,m,n,p,r,s,t,v,w,x,y,z" },
+            { letter: "f", nextLetters: "a,e,i,l,o,r,u" },
+            { letter: "g", nextLetters: "a,d,e,g,i,l,m,o,r,s,u,v,z" },
             { letter: "h", nextLetters: "a,e,i,o,u" },
-            { letter: "i", nextLetters: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z" },
-            { letter: "j", nextLetters: "a,e,i,o,u" },
-            { letter: "k", nextLetters: "a,e,i,o,u" },
-            { letter: "l", nextLetters: "a,e,i,o,u" },
-            { letter: "m", nextLetters: "a,e,i,o,u" },
-            { letter: "n", nextLetters: "a,e,i,o,u" },
-            { letter: "o", nextLetters: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z" },
-            { letter: "p", nextLetters: "a,e,i,o,u" },
-            { letter: "r", nextLetters: "a,e,i,o,u" },
-            { letter: "s", nextLetters: "a,e,i,o,u" },
-            { letter: "t", nextLetters: "a,e,i,o,u" },
-            { letter: "u", nextLetters: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z" },
-            { letter: "v", nextLetters: "a,e,i,o,u" },
-            { letter: "w", nextLetters: "a,e,i,o,u" },
-            { letter: "x", nextLetters: "a,e,i,o,u" },
-            { letter: "y", nextLetters: "a,e,i,o,u" },
-            { letter: "z", nextLetters: "a,e,i,o,u" },
+            { letter: "i", nextLetters: "b,c,d,e,f,g,h,j,k,l,m,n,o,p,r,s,t,v,w,x,y,z" },
+            { letter: "j", nextLetters: "a,d,e,i,o,u,v" },
+            { letter: "k", nextLetters: "a,e,k,i,l,m,o,r,s,t,u,v" },
+            { letter: "l", nextLetters: "a,b,d,e,f,i,j,k,l,n,o,p,s,t,u,v,z" },
+            { letter: "m", nextLetters: "a,b,e,f,i,m,o,p,u" },
+            { letter: "n", nextLetters: "a,d,e,i,n,o,s,t,u,z" },
+            { letter: "o", nextLetters: "b,c,d,f,g,h,i,j,k,l,m,n,p,r,s,t,u,v,w,x,y,z" },
+            { letter: "p", nextLetters: "a,e,i,l,o,p,r,s,t,u" },
+            { letter: "r", nextLetters: "a,b,d,e,f,g,i,k,m,o,p,r,s,t,u,v,z" },
+            { letter: "s", nextLetters: "a,d,e,i,k,l,m,n,o,p,r,t,u,v" },
+            { letter: "t", nextLetters: "a,e,i,o,r,s,t,u,v" },
+            { letter: "u", nextLetters: "b,c,d,f,g,h,i,j,k,l,m,n,o,p,r,s,t,v,w,x,y,z" },
+            { letter: "v", nextLetters: "a,d,e,i,o,r,s,u,z" },
+            { letter: "w", nextLetters: "a,e,i,o,r,u" },
+            { letter: "x", nextLetters: "a,e,i,o,u,t" },
+            { letter: "y", nextLetters: "a,e,i,m,n,o,u" },
+            { letter: "z", nextLetters: "a,d,e,i,l,m,o,r,u,v" },
         ],
     },
 };
