@@ -21,9 +21,10 @@
 	<div id='wordDisplay' class='half'>
 		<h2>生成文字列一覧</h2>
 		<div>
-			<button @click='create' v-bind:disabled="isDisabled">作成</button>
-			<button @click='removeAll' v-bind:disabled="isDisabled">全削除</button>
-			<button @click='outputOtmJSON' v-bind:disabled="isDisabled">OTM-JSONを出力</button>
+			<button @click="create" v-bind:disabled="isDisabled">作成</button>
+			<button @click="removeAll" v-bind:disabled="isDisabled">全削除</button>
+			<button @click="createAll" v-bind:disabled="isDisabled">一括作成</button>
+			<button @click="outputOtmJSON" v-bind:disabled="isDisabled">OTM-JSONを出力</button>
 		</div>
 		<div class='dict'>
 			<div class='zpword' v-for='word in dictionary.words'>

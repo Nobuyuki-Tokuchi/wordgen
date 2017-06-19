@@ -12,13 +12,14 @@ class WordDisplayVM {
      * @param dict OTM形式辞書クラス
      * @param createSetting 単語文字列作成に使用する設定
      */
-    constructor(el, dict, createSetting) {
+    constructor(el, dict, createSetting, equivalent) {
         this.el = el;
         this.data = {
             dictionary: dict,
             isDisabled: false,
             createSetting: createSetting,
             id: 1,
+            equivalent: equivalent,
         };
         this.initMethods();
     }
@@ -50,6 +51,30 @@ class WordDisplayVM {
                 this.dictionary.add(word);
             },
             /**
+             * 登録されている全ての訳語に対して単語を作成するメソッド
+             */
+            createAll: function _createAll() {
+                this.equivalent.translations.forEach((x) => {
+                    let form = "";
+                    switch (this.createSetting.mode) {
+                        case WordGenerator.SIMPLE_SYMBOL:
+                            form = WordGenerator.simple(this.createSetting.simple);
+                            break;
+                        case WordGenerator.SIMPLECV_SYMBOL:
+                            form = WordGenerator.simplecv(this.createSetting.simplecv);
+                            break;
+                        case WordGenerator.DEPENDENCYCV_SYMBOL:
+                            form = WordGenerator.dependencycv(this.createSetting.dependencycv);
+                            break;
+                        default:
+                            break;
+                    }
+                    let word = new OtmWord(this.id++, form);
+                    word.add(x);
+                    this.dictionary.add(word);
+                });
+            },
+            /**
              * 作成した全ての単語を削除するメソッド
              */
             removeAll: function _removeAll() {
@@ -76,7 +101,7 @@ class WordDisplayVM {
              * @param 訳語を設定する単語クラス
              */
             showEquivalentDialog: function _showEquivalentDialog(word) {
-                document.getElementById("selectedWordId").value = word.entry.id.toString();
+                this.equivalent.selectedWordId = word.entry.id.toString();
                 WMModules.equivalentDialog.show();
             },
             /**

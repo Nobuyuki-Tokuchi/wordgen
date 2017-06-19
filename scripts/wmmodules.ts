@@ -20,6 +20,7 @@ interface WordDisplayData {
 	createSetting: GeneratorSettings;
 	isDisabled: boolean;
 	id: number;
+	equivalent: EquivalentSetting;
 }
 
 /**
@@ -34,12 +35,17 @@ interface SettingData {
  * EquivalentChoiceVMの持つdataのインターフェイス
  */
 interface EquivalentChoiceData {
-	translations: string[];
-	selectedValue: string;
+	equivalent: EquivalentSetting;
 	dictionary: OtmDictionary;
-	selectedWordId: string;
 	isSetEquivalentMode: boolean;
 }
+
+interface EquivalentSetting {
+	translations: string[];
+	selectedValue: string;
+	selectedWordId: string;
+}
+
 
 /**
  * WordMaker for Web内で共有されるものをまとめたクラス
@@ -97,10 +103,7 @@ class WMModules {
 		}
 	}
 
-	/**
-	 * 訳語ダイアログ
-	 */
-	static equivalentDialog;
+	static equivalentDialog: NtDialog;
 
 	/**
 	 * デフォルトの文字列生成用設定

@@ -59,7 +59,7 @@
       },
       {
         "letter": "j",
-        "nextLetters": "a,e,m,o,u,y"
+        "nextLetters": "a,e,m,o,u"
       },
       {
         "letter": "k",
@@ -115,7 +115,7 @@
       },
       {
         "letter": "y",
-        "nextLetters": "b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z"
+        "nextLetters": "a,b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z"
       },
       {
         "letter": "z",

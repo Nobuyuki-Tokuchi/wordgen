@@ -8,22 +8,19 @@ class EquivalentChoiceVM {
      * @param el バインディングを適用するタグのid
      * @param dict OTM形式辞書クラス
      */
-    constructor(el, dict) {
+    constructor(el, dict, equivalent) {
         this.el = el;
         this.data = {
-            translations: WMModules.defaultEquivalents(),
-            selectedValue: "",
+            equivalent: equivalent,
             dictionary: dict,
-            selectedWordId: "",
             isSetEquivalentMode: false,
         };
         WMModules.equivalentDialog.onshow = () => {
-            this.data.selectedWordId = document.getElementById("selectedWordId").value;
-            this.data.isSetEquivalentMode = (this.data.selectedWordId === "");
+            this.data.isSetEquivalentMode = (this.data.equivalent.selectedWordId === "");
         };
         WMModules.equivalentDialog.onhide = () => {
-            this.data.selectedValue = "";
-            this.data.selectedWordId = "";
+            this.data.equivalent.selectedValue = "";
+            this.data.equivalent.selectedWordId = "";
         };
         this.initMethods();
     }
@@ -40,7 +37,7 @@ class EquivalentChoiceVM {
                 for (let i = 0; i < files.length; i++) {
                     let reader = new FileReader();
                     reader.readAsText(files[i]);
-                    this.translations.splice(0);
+                    this.equivalent.translations.splice(0);
                     reader.onload = () => {
                         let result = reader.result;
                         let lines = result.replace('\r\n', '\n').replace('\r', '\n')
@@ -48,7 +45,7 @@ class EquivalentChoiceVM {
                             return el !== "";
                         });
                         for (let i = 0; i < lines.length; i++) {
-                            this.translations.push(lines[i]);
+                            this.equivalent.translations.push(lines[i]);
                         }
                     };
                 }
@@ -57,10 +54,10 @@ class EquivalentChoiceVM {
              * ダイアログで決定ボタンを押した場合の処理を行うメソッド
              */
             addTranslation: function _addTranslation() {
-                if (this.selectedValue !== "") {
-                    let id = Number(this.selectedWordId);
+                if (this.equivalent.selectedValue !== "") {
+                    let id = Number(this.equivalent.selectedWordId);
                     let word = this.dictionary.getWord(id);
-                    word.insert(0, this.selectedValue);
+                    word.insert(0, this.equivalent.selectedValue);
                 }
             },
             /**

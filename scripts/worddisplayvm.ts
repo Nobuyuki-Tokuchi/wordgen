@@ -17,7 +17,7 @@ class WordDisplayVM {
 	 * @param dict OTM形式辞書クラス
 	 * @param createSetting 単語文字列作成に使用する設定
 	 */
-	constructor(el: string, dict: OtmDictionary, createSetting: GeneratorSettings) {
+	constructor(el: string, dict: OtmDictionary, createSetting: GeneratorSettings, equivalent: EquivalentSetting) {
 		this.el = el;
 
 		this.data = <WordDisplayData> {
@@ -25,6 +25,7 @@ class WordDisplayVM {
 			isDisabled: false,
 			createSetting: createSetting,
 			id: 1,
+			equivalent: equivalent,
 		};
 
 		this.initMethods();
@@ -60,6 +61,33 @@ class WordDisplayVM {
 			},
 
 			/**
+			 * 設定されている全ての訳語に対して単語を作成するメソッド
+			 */
+			createAll: function _createAll(): void {
+				this.equivalent.translations.forEach((x) => {
+					let form = "";
+					
+					switch(this.createSetting.mode) {
+						case WordGenerator.SIMPLE_SYMBOL:
+							form = WordGenerator.simple(this.createSetting.simple);
+							break;
+						case WordGenerator.SIMPLECV_SYMBOL:
+							form = WordGenerator.simplecv(this.createSetting.simplecv);
+							break;
+						case WordGenerator.DEPENDENCYCV_SYMBOL:
+							form = WordGenerator.dependencycv(this.createSetting.dependencycv);
+							break;
+						default :
+							break;
+					}
+
+					let word = new OtmWord(this.id++, form);
+					word.add(x);
+					this.dictionary.add(word);
+				});
+			},
+
+			/**
 			 * 作成した全ての単語を削除するメソッド
 			 */
 			removeAll: function _removeAll(): void {
@@ -92,7 +120,7 @@ class WordDisplayVM {
 			 * @param 訳語を設定する単語クラス
 			 */
 			showEquivalentDialog: function _showEquivalentDialog(word: OtmWord): void {
-				(<HTMLInputElement>document.getElementById("selectedWordId")).value = word.entry.id.toString();
+				this.equivalent.selectedWordId = word.entry.id.toString();
 				WMModules.equivalentDialog.show();
 			},
 

@@ -11,6 +11,11 @@ var equivalentChoice;
 
 	let createSetting = WMModules.createSetting();
 	let dictionary = new OtmDictionary();
+	let equivalent = {
+		translations: WMModules.defaultEquivalents(),
+		selectedValue: "",
+		selectedWordId: "",
+	};
 
 	// 初期化用関数
 	function init() {
@@ -23,13 +28,13 @@ var equivalentChoice;
 		});
 
 		// 生成文字列一覧のVMの初期化
-		wordDisplay = new Vue(new WordDisplayVM("#wordDisplay", dictionary, createSetting));
+		wordDisplay = new Vue(new WordDisplayVM("#wordDisplay", dictionary, createSetting, equivalent));
 
 		// 設定部分のVMの初期化
 		settings = new Vue(new SettingVM("#settings", createSetting));
 
 		// 訳語選択部分のVMの初期化
-		equivalentChoice = new Vue(new EquivalentChoiceVM("#equivalentChoice", dictionary));
+		equivalentChoice = new Vue(new EquivalentChoiceVM("#equivalentChoice", dictionary, equivalent));
 	}
 })();
 
