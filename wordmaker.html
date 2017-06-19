@@ -139,7 +139,6 @@
 		</div>
 		<div class="ntdialog-body">
 			<div id="equivalentChoice">
-				<input type="hidden" id="selectedWordId" value="">
 				<div v-show="isSetEquivalentMode">
 					<div>
 						<span>訳語ファイル入力(複数選択可)：</span>
@@ -152,8 +151,8 @@
 						<button @click="cancel">キャンセル</button>
 					</div>
 					<div>
-						<select v-model='selectedValue'>
-							<option v-for='word in translations' v-bind:value='word'>
+						<select v-model='equivalent.selectedValue'>
+							<option v-for='word in equivalent.translations' v-bind:value='word'>
 								{{ word }}
 							</option>
 						</select>
