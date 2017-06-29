@@ -72,7 +72,6 @@ class SettingVM {
 			 * @param クリックイベント
 			 */
 			showEquivalentDialog: function _showEquivalentDialog(ev): void {
-				(<HTMLInputElement>document.getElementById("selectedWordId")).value = "";
 				WMModules.equivalentDialog.show();
 			}
 		};

@@ -12,7 +12,7 @@ var equivalentChoice;
 	let createSetting = WMModules.createSetting();
 	let dictionary = new OtmDictionary();
 	let equivalent = {
-		translations: WMModules.defaultEquivalents(),
+		equivalentsList: WMModules.defaultEquivalents(),
 		selectedValue: "",
 		selectedWordId: "",
 	};

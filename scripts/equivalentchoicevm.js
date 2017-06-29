@@ -34,21 +34,33 @@ class EquivalentChoiceVM {
              */
             setTranslations: function _setTranslations(ev) {
                 let files = ev.target.files;
+                let name = "";
                 for (let i = 0; i < files.length; i++) {
                     let reader = new FileReader();
                     reader.readAsText(files[i]);
-                    this.equivalent.translations.splice(0);
+                    this.equivalent.equivalentsList.data.splice(0);
                     reader.onload = () => {
                         let result = reader.result;
-                        let lines = result.replace('\r\n', '\n').replace('\r', '\n')
-                            .split('\n').filter(function (el) {
-                            return el !== "";
-                        });
-                        for (let i = 0; i < lines.length; i++) {
-                            this.equivalent.translations.push(lines[i]);
+                        if (files[i].name.endsWith(".json")) {
+                            let dict = JSON.parse(result);
+                            name = name + ", " + dict.name;
+                            for (let j = 0; j < dict.data.length; j++) {
+                                this.equivalent.equivalentsList.data.push(dict.data[j]);
+                            }
+                        }
+                        else {
+                            let lines = result.replace('\r\n', '\n').replace('\r', '\n')
+                                .split('\n').filter(function (el) {
+                                return el !== "";
+                            });
+                            name = name + ", (unknown)";
+                            for (let j = 0; j < lines.length; j++) {
+                                this.equivalent.equivalentsList.data.push({ equivalents: lines[j].split(",").map(x => x.trim()), content: void 0 });
+                            }
                         }
                     };
                 }
+                this.equivalent.equivalentsList.name = name;
             },
             /**
              * ダイアログで決定ボタンを押した場合の処理を行うメソッド

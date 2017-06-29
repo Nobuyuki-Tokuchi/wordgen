@@ -152,8 +152,8 @@
 					</div>
 					<div>
 						<select v-model='equivalent.selectedValue'>
-							<option v-for='word in equivalent.translations' v-bind:value='word'>
-								{{ word }}
+							<option v-for='word in equivalent.equivalentsList.data' v-bind:value='word'>
+								{{ word.equivalents.join(",") }}
 							</option>
 						</select>
 					</div>

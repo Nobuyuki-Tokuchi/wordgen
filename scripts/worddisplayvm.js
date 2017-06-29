@@ -51,10 +51,10 @@ class WordDisplayVM {
                 this.dictionary.add(word);
             },
             /**
-             * 登録されている全ての訳語に対して単語を作成するメソッド
+             * 設定されている全ての訳語に対して単語を作成するメソッド
              */
             createAll: function _createAll() {
-                this.equivalent.translations.forEach((x) => {
+                this.equivalent.equivalentsList.data.forEach((x) => {
                     let form = "";
                     switch (this.createSetting.mode) {
                         case WordGenerator.SIMPLE_SYMBOL:
@@ -70,7 +70,7 @@ class WordDisplayVM {
                             break;
                     }
                     let word = new OtmWord(this.id++, form);
-                    word.add(x);
+                    word.add(x.equivalents.join(","));
                     this.dictionary.add(word);
                 });
             },

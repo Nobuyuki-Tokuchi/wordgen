@@ -64,7 +64,7 @@ class WordDisplayVM {
 			 * 設定されている全ての訳語に対して単語を作成するメソッド
 			 */
 			createAll: function _createAll(): void {
-				this.equivalent.translations.forEach((x) => {
+				this.equivalent.equivalentsList.data.forEach((x) => {
 					let form = "";
 					
 					switch(this.createSetting.mode) {
@@ -82,7 +82,7 @@ class WordDisplayVM {
 					}
 
 					let word = new OtmWord(this.id++, form);
-					word.add(x);
+					word.add(x.equivalents.join(","));
 					this.dictionary.add(word);
 				});
 			},
