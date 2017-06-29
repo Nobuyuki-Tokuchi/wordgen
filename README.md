@@ -21,8 +21,10 @@
 なお，JSON形式の場合には一つのファイルで全ての設定を保持しているため
 そのような問題はありません．
 
-## 使用ライブラリ
-このアプリケーションはライブラリにVue.jsを使用しております．
+## 使用ライブラリ等
+このアプリケーションはライブラリにVue.jsを使用しております．  
+また，初期設定の単語一覧にはスライム氏(@slaimsan)の
+[S語根](https://onedrive.live.com/view.aspx?resid=9C3F8BE2B10E2F75!18123&ithint=file,xlsx&app=Excel&authkey=!AP-f45A20iJ7MbE)を使用しております
 
 ## ライセンス
 ライセンスはMIT Licenseを採用しております．
