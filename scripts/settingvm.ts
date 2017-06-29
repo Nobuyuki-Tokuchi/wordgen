@@ -184,7 +184,7 @@ class SettingVM {
 					patterns = split[1];
 					break;
 				case "prohibitions":
-					patterns = split[1];
+					prohibitions = split[1];
 					break;
 			}
 		}
