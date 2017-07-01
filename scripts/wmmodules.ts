@@ -122,19 +122,19 @@ class WMModules {
 		SIMPLE: {
 			letters: "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,y,z",
 			patterns: "4,5",
-			prohibitions: "bf,bp,bv,pf,pb,pv,rw",
+			prohibitions: "bf,bp,bv,pf,pb,pv,rw,^x,w$,y$",
 		},
 		SIMPLECV: {
 			consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z",
 			vowels: "a,e,i,o,u",
 			patterns: "CV*CV,CVC",
-			prohibitions: "bf,bp,bv,pf,pb,pv,rw",
+			prohibitions: "bf,bp,bv,pf,pb,pv,rw,^x,w$,y$",
 		},
 		DEPENDENCYCV: {
 			consonants: "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,y,z",
 			vowels: "a,e,i,o,u",
 			patterns: "CV*CV,CVC",
-			prohibitions: "bbb,ddd,ggg,kkk,lll,mmm,nnn,ppp,rrr,ttt",
+			prohibitions: "bbb,ddd,ggg,kkk,lll,mmm,nnn,ppp,rrr,ttt,^x,w$,y$",
 			transitions: [
 				{ letter: "a", nextLetters : "b,c,d,f,g,h,i,j,k,l,m,n,p,r,s,t,u,v,w,x,y,z" },
 				{ letter: "b", nextLetters : "a,b,e,i,l,o,r,u"},
