@@ -13,13 +13,13 @@ class WordGenerator {
         let countList = setting.patterns.split(",");
         let count = parseInt(countList[Math.floor(Math.random() * countList.length)]);
         let prohibitions = WordGenerator.getProhibitions(setting.prohibitions);
+        let prohibitionsFirstMax = prohibitions.first.length === 0 ? -1 : prohibitions.first.map((x) => x.length).reduce((old, current) => Math.max(old, current));
         for (let i = 0; i < count; i++) {
-            buffer += letters[Math.floor(Math.random() * letters.length)];
-            let isOk = prohibitions.length === 0 || prohibitions.every((x) => {
-                return !buffer.endsWith(x);
-            });
+            let letter = letters[Math.floor(Math.random() * letters.length)];
+            buffer += letter;
+            let isOk = WordGenerator.checkProhibition(buffer, prohibitions, count, i);
             if (!isOk) {
-                buffer = buffer.substr(0, buffer.length - 1);
+                buffer = buffer.substr(0, buffer.length - letter.length);
                 i--;
             }
         }
@@ -39,25 +39,25 @@ class WordGenerator {
         let pattern = patternList[Math.floor(Math.random() * patternList.length)];
         let prohibitions = WordGenerator.getProhibitions(setting.prohibitions);
         for (let i = 0; i < pattern.length; i++) {
+            let letter;
             switch (pattern[i].toUpperCase()) {
                 case "C":
-                    buffer += consonants[Math.floor(Math.random() * consonants.length)];
+                    letter = consonants[Math.floor(Math.random() * consonants.length)];
                     break;
                 case "V":
-                    buffer += vowels[Math.floor(Math.random() * vowels.length)];
+                    letter = vowels[Math.floor(Math.random() * vowels.length)];
                     break;
                 case "*":
-                    buffer += letters[Math.floor(Math.random() * letters.length)];
+                    letter = letters[Math.floor(Math.random() * letters.length)];
                     break;
                 default:
-                    buffer += "-";
+                    letter = "-";
                     break;
             }
-            let isOk = prohibitions.length === 0 || prohibitions.every((x) => {
-                return !buffer.endsWith(x);
-            });
+            buffer += letter;
+            let isOk = WordGenerator.checkProhibition(buffer, prohibitions, pattern.length, i);
             if (!isOk) {
-                buffer = buffer.substr(0, buffer.length - 1);
+                buffer = buffer.substr(0, buffer.length - letter.length);
                 i--;
             }
         }
@@ -127,25 +127,50 @@ class WordGenerator {
             if (letterList === null || letterList.length === 0) {
                 letterList = ["-"];
             }
-            oldLetter = letterList[Math.floor(Math.random() * letterList.length)];
-            buffer += oldLetter;
-            let isOk = prohibitions.length === 0 || prohibitions.every((x) => {
-                return !buffer.endsWith(x);
-            });
+            let letter = letterList[Math.floor(Math.random() * letterList.length)];
+            buffer += letter;
+            let isOk = WordGenerator.checkProhibition(buffer, prohibitions, pattern.length, i);
             if (!isOk) {
-                buffer = buffer.substr(0, buffer.length - 1);
+                buffer = buffer.substr(0, buffer.length - letter.length);
                 i--;
+            }
+            else {
+                oldLetter = letter;
             }
         }
         return buffer;
     }
     static getProhibitions(prohibitions) {
         if (prohibitions == null || prohibitions.trim().length === 0) {
-            return [];
+            return {
+                first: [],
+                last: [],
+                always: [],
+            };
         }
         else {
-            return prohibitions.split(",").map((x) => x.trim());
+            let split = prohibitions.split(",").map((x) => x.trim());
+            let first = split.filter((x) => x.startsWith("^")).map((x) => x.substring(1));
+            let last = split.filter((x) => x.endsWith("$")).map((x) => x.substring(0, x.length - 1));
+            return {
+                first: first,
+                last: last,
+                always: split.filter((x) => !(x.startsWith("^") || x.endsWith("$")))
+            };
         }
+    }
+    static checkProhibition(buffer, prohibitions, length, count) {
+        let prohibitionsFirstMax = prohibitions.first.length === 0 ? -1 : prohibitions.first.map((x) => x.length).reduce((old, current) => Math.max(old, current));
+        let isFirst = prohibitions.first.length === 0 || prohibitionsFirstMax < count || prohibitions.first.every((x) => {
+            return !buffer.startsWith(x);
+        });
+        let isAlways = prohibitions.always.length === 0 || prohibitions.always.every((x) => {
+            return !buffer.endsWith(x);
+        });
+        let isLast = prohibitions.last.length === 0 || count !== length - 1 || prohibitions.last.every((x) => {
+            return !buffer.endsWith(x);
+        });
+        return isFirst && isAlways && isLast;
     }
 }
 /**

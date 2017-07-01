@@ -10,4 +10,4 @@ vowels = a,e,i,o,u,y
 patterns = CVCCV,CVC,CVVC
 
 # 禁則文字列
-prohibitions = hll,hdzm,hlg
+prohibitions = ^hl,^hr,hll,hdzm,hlg,w$,y$

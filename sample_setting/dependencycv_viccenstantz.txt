@@ -10,7 +10,7 @@ vowels = a,e,i,o,u,y
 patterns = CVCCV,CVC,CVVC
 
 # 禁則文字列
-prohibitions = hll,hdzm,hlg
+prohibitions = ^hl,^hr,hll,hdzm,hlg,w$,y$
 
 # 以下[文字] = [後ろに置ける文字]
 a = a,b,c,d,dz,f,g,h,i,j,k,l,m,n,p,r,s,t,u,v,w,x,z
