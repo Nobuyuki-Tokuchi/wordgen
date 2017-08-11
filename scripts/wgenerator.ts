@@ -22,7 +22,6 @@ interface SimpleCvWGSetting {
  */
 interface DependencyCvWGSetting extends SimpleCvWGSetting {
 	transitions: DependencyCvTransition[];
-	prohibitions: string;
 }
 
 /**
@@ -33,6 +32,26 @@ interface DependencyCvTransition {
 	nextLetters: string;
 }
 
+/**
+ * スライム型文字列生成用の引数を表すインターフェイス
+ */
+interface SlaimWGSetting {
+	f_consonants: string;
+	vowels: string;
+	l_consonants: string;
+	weight: number;
+	prohibitions: string;
+	transitions: SlaimWGTransition[];
+}
+
+interface SlaimWGTransition {
+	letter: string;
+	nextLetters: string;
+}
+
+/**
+ * 禁則文字列設定を表すインターフェイス
+ */
 interface ProhibitionSetting {
 	first: string[];
 	always: string[];
@@ -54,7 +73,7 @@ class WordGenerator {
 	public static SIMPLECV_SYMBOL = "simplecv";
 
 	/**
-	 * 母子音文字別定義依存遷移型文字列生成を表示シンボル
+	 * 母子音文字別定義依存遷移型文字列生成を表すシンボル
 	 */
 	public static DEPENDENCYCV_SYMBOL = "dependencycv";
 
@@ -216,6 +235,20 @@ class WordGenerator {
 		return buffer;
 	}
 
+	/**
+	 * スライム型文字列生成を行うメソッド
+	 * @param setting 文字列を生成する時に使用する設定
+	 * @return 生成した文字列
+	 */
+	public static slaim(setting: SlaimWGSetting): string {
+		return "";
+	}
+
+	/**
+	 * 禁則文字列の一覧から禁則文字列設定を取得する
+	 * @param prohibitions 禁則文字列の一覧
+	 * @return 禁則文字列設定
+	 */
 	private static getProhibitions(prohibitions: string): ProhibitionSetting {
 		if(prohibitions == null || prohibitions.trim().length === 0) {
 			return <ProhibitionSetting> {
@@ -237,6 +270,13 @@ class WordGenerator {
 		}
 	}
 
+	/**
+	 * 禁則文字列が含まれていないかチェックする
+	 * @param buffer 作成中の単語文字列
+	 * @param prohibitions 禁則文字列設定
+	 * @param length 作成する単語文字列の長さ
+	 * @param count 現在の位置
+	 */
 	private static checkProhibition(buffer: string, prohibitions: ProhibitionSetting, length: number, count: number) {
 		let prohibitionsFirstMax = prohibitions.first.length === 0 ? -1 : prohibitions.first.map((x) => x.length).reduce((old, current) => Math.max(old, current));
 

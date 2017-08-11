@@ -968,10 +968,6 @@ WMModules.EQUIVALENTS = {
             "content": null
         },
         {
-            "equivalents": ["吐く", "はく"],
-            "content": null
-        },
-        {
             "equivalents": ["吹く", "ふく"],
             "content": null
         },

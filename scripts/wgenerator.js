@@ -140,6 +140,19 @@ class WordGenerator {
         }
         return buffer;
     }
+    /**
+     * スライム型文字列生成を行うメソッド
+     * @param setting 文字列を生成する時に使用する設定
+     * @return 生成した文字列
+     */
+    static slaim(setting) {
+        return "";
+    }
+    /**
+     * 禁則文字列の一覧から禁則文字列設定を取得する
+     * @param prohibitions 禁則文字列の一覧
+     * @return 禁則文字列設定
+     */
     static getProhibitions(prohibitions) {
         if (prohibitions == null || prohibitions.trim().length === 0) {
             return {
@@ -159,6 +172,13 @@ class WordGenerator {
             };
         }
     }
+    /**
+     * 禁則文字列が含まれていないかチェックする
+     * @param buffer 作成中の単語文字列
+     * @param prohibitions 禁則文字列設定
+     * @param length 作成する単語文字列の長さ
+     * @param count 現在の位置
+     */
     static checkProhibition(buffer, prohibitions, length, count) {
         let prohibitionsFirstMax = prohibitions.first.length === 0 ? -1 : prohibitions.first.map((x) => x.length).reduce((old, current) => Math.max(old, current));
         let isFirst = prohibitions.first.length === 0 || prohibitionsFirstMax < count || prohibitions.first.every((x) => {
@@ -182,7 +202,7 @@ WordGenerator.SIMPLE_SYMBOL = "simple";
  */
 WordGenerator.SIMPLECV_SYMBOL = "simplecv";
 /**
- * 母子音文字別定義依存遷移型文字列生成を表示シンボル
+ * 母子音文字別定義依存遷移型文字列生成を表すシンボル
  */
 WordGenerator.DEPENDENCYCV_SYMBOL = "dependencycv";
 //# sourceMappingURL=wgenerator.js.map

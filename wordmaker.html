@@ -123,9 +123,9 @@
 				<div v-for="(transition, index)  in createSetting.dependencycv.transitions">
 					<input type="text" class="letter" v-model="transition.letter">
 					<input type="text" class="nextLetters" v-model="transition.nextLetters">
-					<button>削除</button>
+					<!-- button @click="removeDependency">削除</button -->
 				</div>
-				<button>追加</button>
+				<!-- button @click="addDependency">追加</button -->
 			</div>
 		</div>
 	</div>

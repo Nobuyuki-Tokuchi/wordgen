@@ -1,3 +1,4 @@
+#! dependencycv
 # 改行不可なので注意
 
 # 子音設定
@@ -23,7 +24,7 @@ f = a,c,dz,e,f,i,l,o,r,s,t,u,x,y,z
 g = a,b,c,d,e,g,i,l,m,n,o,r,s,u,v,x,y
 h = a,dz,e,i,l,o,r,u,y
 i = b,c,d,dz,e,f,g,h,k,l,m,n,p,r,s,t,v,w,x,z
-j = a,e,m,o,u,y
+j = a,e,m,o,u
 k = a,c,dz,e,f,i,k,l,m,n,o,p,r,s,t,u,v,x,y,z
 l = a,b,c,d,dz,e,f,g,h,i,k,l,m,n,o,p,s,t,u,v,x,y,z
 m = a,b,c,e,f,i,m,o,p,s,u,v,w,x,y
@@ -37,5 +38,5 @@ u = b,c,d,dz,e,f,g,h,j,k,l,m,n,o,p,r,s,t,u,v,w,x,z
 v = a,c,d,e,i,l,o,r,s,t,u,v,x,y,z
 w = a,c,e,i,o,r,x
 x = a,d,e,g,i,k,l,m,n,o,p,r,t,u,v,w,x,y,z
-y = b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z
+y = a,b,c,d,dz,f,g,h,j,k,l,m,n,p,r,s,t,v,w,x,z
 z = a,e,i,k,l,m,n,o,p,r,t,u,v,w,y,z

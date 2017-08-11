@@ -113,6 +113,9 @@ class WMModules {
 		}
 	}
 
+	/**
+	 * 訳語関連ダイアログを保持する
+	 */
 	static equivalentDialog: NtDialog;
 
 	/**
@@ -1025,10 +1028,6 @@ class WMModules {
 			},
 			{
 				"equivalents" : ["吸う", "すう"],
-				"content" : null
-			},
-			{
-				"equivalents" : ["吐く", "はく"],
 				"content" : null
 			},
 			{

@@ -60,6 +60,11 @@ class SettingVM {
              */
             showEquivalentDialog: function _showEquivalentDialog(ev) {
                 WMModules.equivalentDialog.show();
+            },
+            addDependency: function _addDependency(ev) {
+                this.createSetting.dependencycv.transitions.push({ letter: "", nextLetters: "" });
+            },
+            removeDependency: function _removeDependency(ev) {
             }
         };
     }
@@ -104,7 +109,11 @@ class SettingVM {
      */
     static setPlainSetting(result, createSetting) {
         let lines = result.replace('\r\n', '\n').replace('\r', '\n')
-            .split('\n').filter(function (el) {
+            .split('\n');
+        if (lines[0].startsWith("#!")) {
+            createSetting.mode = lines[0].substring(2).trim();
+        }
+        lines = lines.filter(function (el) {
             return el !== "" && !el.startsWith("#");
         });
         switch (createSetting.mode) {
@@ -194,6 +203,7 @@ class SettingVM {
                     break;
                 case "prohibitions":
                     prohibitions = split[1];
+                    break;
                 default:
                     if (consonants.indexOf(split[0]) !== 0 || vowels.indexOf(split[0]) !== 0) {
                         transitions.push({

@@ -73,6 +73,14 @@ class SettingVM {
 			 */
 			showEquivalentDialog: function _showEquivalentDialog(ev): void {
 				WMModules.equivalentDialog.show();
+			},
+
+			addDependency: function _addDependency(ev): void {
+				this.createSetting.dependencycv.transitions.push({ letter: "", nextLetters: "" });
+			},
+
+			removeDependency: function _removeDependency(ev): void {
+				console.log(ev);
 			}
 		};
 	}
@@ -124,9 +132,15 @@ class SettingVM {
 	 */
 	private static setPlainSetting(result: string, createSetting: GeneratorSettings): GeneratorSettings {
 		let lines = result.replace('\r\n', '\n').replace('\r', '\n')
-			.split('\n').filter(function(el) {
-				return el !== "" && !el.startsWith("#");
-			});
+			.split('\n');
+
+		if(lines[0].startsWith("#!")) {
+			createSetting.mode = lines[0].substring(2).trim();
+		}
+		
+		lines = lines.filter(function(el) {
+			return el !== "" && !el.startsWith("#");
+		});
 
 		switch(createSetting.mode) {
 			case WordGenerator.SIMPLE_SYMBOL:
@@ -223,6 +237,7 @@ class SettingVM {
 					break;
 				case "prohibitions":
 					prohibitions = split[1];
+					break;
 				default:
 					if(consonants.indexOf(split[0]) !== 0 || vowels.indexOf(split[0]) !== 0) {
 						transitions.push(<DependencyCvTransition> {
